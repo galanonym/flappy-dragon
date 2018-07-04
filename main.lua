@@ -1,10 +1,16 @@
+-- libraries
 local inspect = require('lib/inspect')
 local console = require('console')(inspect)
 
+-- constants
+local GRAVITY = 200 -- pixels per second
+local ROTATION = 1 -- radians per second
+
+-- variables
 local dragonImage
 local dragonQuads = {}
-local dragonY = 200
-local GRAVITY = 200 -- pixels per second
+local dragonY = 100
+local dragonRotation = 0
 
 function love.load()
   -- Sets display mode and properties of window
@@ -22,7 +28,13 @@ end
 
 function love.update(dt)
   dragonY = dragonY + (GRAVITY * dt)
+
+  if dragonRotation < 1 then
+    dragonRotation = dragonRotation + (ROTATION * dt)
+  end
+
   console.log('dragonY', dragonY)
+  console.log('dragonRotation', dragonRotation)
 end
 
 function love.draw()
@@ -39,14 +51,13 @@ function love.draw()
   love.graphics.setColor(1, 1, 1)
 
   -- Draw a drawable object into the screen
-  -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY)
-  love.graphics.draw(dragonImage, dragonQuads[1], 0, dragonY, 0, 0.3, 0.3)
+  -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
+  love.graphics.draw(dragonImage, dragonQuads[1], 100, dragonY, dragonRotation, 0.3, 0.3, 250, 250)
 
   console.draw()
 end
 
 function love.keypressed(key)
-  console.log('key', key)
   if key == 'escape' then
     -- Adds the quit event to the queue.(terminates application)
     love.event.quit()
