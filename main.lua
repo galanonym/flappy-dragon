@@ -13,8 +13,6 @@ function love.load()
   -- love.graphics.newImage(filename) -> Image
   dragonImage = love.graphics.newImage('assets/dragon/spritesheet.png')
 
-  console.log('dragonImage', dragonImage)
-  console.log('love.graphics.newImage', love.graphics.newImage)
 
   -- Define quad for dragonImage
   -- love.graphics.newQuad(x, y, width, height, sheetWidth, sheetHeight) -> Quad
@@ -39,4 +37,12 @@ function love.draw()
   love.graphics.draw(dragonImage, dragonQuads[1], 0, 0, 0, 0.3, 0.3)
 
   console.draw()
+end
+
+function love.keypressed(key)
+  -- console.log('key', key)
+  if key == 'escape' then
+    -- Adds the quit event to the queue.(terminates application)
+    love.event.quit()
+  end
 end
