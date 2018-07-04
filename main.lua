@@ -1,10 +1,12 @@
 -- libraries
 local inspect = require('lib/inspect')
 local console = require('console')(inspect)
+local timer = require('lib/hump/timer')
 
 -- constants
 local ROTATION = 1 -- radians per second
 local GRAVITY = 700
+local JUMP_SPEED = 400
 
 -- variables
 local dragonImage
@@ -12,6 +14,7 @@ local dragonQuads = {}
 local dragonY = 100
 local dragonRotation = 0
 local dragonSpeedY = 0 -- pixels per second
+local dragonCurrentQuad
 
 function love.load()
   -- Sets display mode and properties of window
@@ -25,6 +28,11 @@ function love.load()
   -- Define quad for dragonImage
   -- love.graphics.newQuad(x, y, width, height, sheetWidth, sheetHeight) -> Quad
   dragonQuads[1] = love.graphics.newQuad(0, 0, 500, 500, dragonImage:getDimensions())
+  dragonQuads[2] = love.graphics.newQuad(500, 0, 500, 500, dragonImage:getDimensions())
+  dragonQuads[3] = love.graphics.newQuad(1000, 0, 500, 500, dragonImage:getDimensions())
+  dragonQuads[4] = love.graphics.newQuad(1500, 0, 500, 500, dragonImage:getDimensions())
+
+  dragonCurrentQuad = dragonQuads[1]
 end
 
 function love.update(dt)
@@ -37,6 +45,8 @@ function love.update(dt)
 
   console.log('dragonY', dragonY)
   console.log('dragonRotation', dragonRotation)
+
+  timer.update(dt)
 end
 
 function love.draw()
@@ -54,7 +64,7 @@ function love.draw()
 
   -- Draw a drawable object into the screen
   -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
-  love.graphics.draw(dragonImage, dragonQuads[1], 100, dragonY, dragonRotation, 0.3, 0.3, 250, 250)
+  love.graphics.draw(dragonImage, dragonCurrentQuad, 100, dragonY, dragonRotation, 0.3, 0.3, 250, 250)
 
   console.draw()
 end
@@ -65,7 +75,21 @@ function love.keypressed(key)
     love.event.quit()
   end
 
-  -- if key == 'space' then
-  --   gra
-  -- end
+  if key == 'space' then
+    dragonSpeedY = -JUMP_SPEED
+    dragonRotation = -0.6
+    timer.script(function(wait)
+      dragonCurrentQuad = dragonQuads[2]
+      wait(0.1)
+      dragonCurrentQuad = dragonQuads[3]
+      wait(0.1)
+      dragonCurrentQuad = dragonQuads[4]
+      wait(0.05)
+      dragonCurrentQuad = dragonQuads[3]
+      wait(0.05)
+      dragonCurrentQuad = dragonQuads[2]
+      wait(0.05)
+      dragonCurrentQuad = dragonQuads[1]
+    end)
+  end
 end
