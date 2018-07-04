@@ -3,6 +3,8 @@ local console = require('console')(inspect)
 
 local dragonImage
 local dragonQuads = {}
+local dragonY = 200
+local GRAVITY = 200 -- pixels per second
 
 function love.load()
   -- Sets display mode and properties of window
@@ -16,6 +18,11 @@ function love.load()
   -- Define quad for dragonImage
   -- love.graphics.newQuad(x, y, width, height, sheetWidth, sheetHeight) -> Quad
   dragonQuads[1] = love.graphics.newQuad(0, 0, 500, 500, dragonImage:getDimensions())
+end
+
+function love.update(dt)
+  dragonY = dragonY + (GRAVITY * dt)
+  console.log('dragonY', dragonY)
 end
 
 function love.draw()
@@ -33,7 +40,7 @@ function love.draw()
 
   -- Draw a drawable object into the screen
   -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY)
-  love.graphics.draw(dragonImage, dragonQuads[1], 0, 0, 0, 0.3, 0.3)
+  love.graphics.draw(dragonImage, dragonQuads[1], 0, dragonY, 0, 0.3, 0.3)
 
   console.draw()
 end
