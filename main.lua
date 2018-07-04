@@ -3,14 +3,15 @@ local inspect = require('lib/inspect')
 local console = require('console')(inspect)
 
 -- constants
-local GRAVITY = 200 -- pixels per second
 local ROTATION = 1 -- radians per second
+local GRAVITY = 700
 
 -- variables
 local dragonImage
 local dragonQuads = {}
 local dragonY = 100
 local dragonRotation = 0
+local dragonSpeedY = 0 -- pixels per second
 
 function love.load()
   -- Sets display mode and properties of window
@@ -27,7 +28,8 @@ function love.load()
 end
 
 function love.update(dt)
-  dragonY = dragonY + (GRAVITY * dt)
+  dragonSpeedY = dragonSpeedY + (GRAVITY * dt)
+  dragonY = dragonY + (dragonSpeedY * dt)
 
   if dragonRotation < 1 then
     dragonRotation = dragonRotation + (ROTATION * dt)
@@ -62,4 +64,8 @@ function love.keypressed(key)
     -- Adds the quit event to the queue.(terminates application)
     love.event.quit()
   end
+
+  -- if key == 'space' then
+  --   gra
+  -- end
 end
