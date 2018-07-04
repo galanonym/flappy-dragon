@@ -5,6 +5,8 @@ local timer = require('lib/hump/timer')
 
 -- constants
 local ROTATION = 1 -- radians per second
+local ROTATION_MIN = -0.6
+local ROTATION_MAX = 1
 local GRAVITY = 700
 local JUMP_SPEED = 400
 
@@ -39,7 +41,7 @@ function love.update(dt)
   dragonSpeedY = dragonSpeedY + (GRAVITY * dt)
   dragonY = dragonY + (dragonSpeedY * dt)
 
-  if dragonRotation < 1 then
+  if dragonRotation < ROTATION_MAX then
     dragonRotation = dragonRotation + (ROTATION * dt)
   end
 
@@ -77,7 +79,30 @@ function love.keypressed(key)
 
   if key == 'space' then
     dragonSpeedY = -JUMP_SPEED
-    dragonRotation = -0.6
+
+    local d = math.abs(dragonRotation)
+    local m = math.abs(ROTATION_MIN)
+    local sum = d + m
+    local step = sum / 4
+    console.log('step', step)
+    timer.script(function(wait)
+      if dragonRotation > ROTATION_MIN then
+        dragonRotation = dragonRotation - step
+      end
+      wait(0.02)
+      if dragonRotation > ROTATION_MIN then
+        dragonRotation = dragonRotation - step
+      end
+      wait(0.02)
+      if dragonRotation > ROTATION_MIN then
+        dragonRotation = dragonRotation - step
+      end
+      wait(0.02)
+      if dragonRotation > ROTATION_MIN then
+        dragonRotation = dragonRotation - step
+      end
+    end)
+
     timer.script(function(wait)
       dragonCurrentQuad = dragonQuads[2]
       wait(0.1)
