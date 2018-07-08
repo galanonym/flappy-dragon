@@ -1,10 +1,11 @@
 -- libraries
--- local inspect = require('lib/inspect')
--- local console = require('console')(inspect)
+local inspect = require('lib/inspect')
+local console = require('console')(inspect)
+local timer = require('lib/hump/timer')
 
 -- modules
-local dragon = require('dragon')
-local bat = require('bat')
+local dragon = require('dragon')(console, timer)
+local bat = require('bat')(console, timer)
 
 function love.load()
   -- Sets display mode and properties of window
@@ -18,9 +19,20 @@ end
 function love.update(dt)
   dragon.update(dt)
   bat.update(dt)
+
+  -- Activate timer library
+  timer.update(dt)
 end
 
 function love.draw()
+  -- Set color used for drawing
+  -- love.graphics.setColor(red, green, blue, alfa)
+  love.graphics.setColor(0.14, 0.36, 0.46)
+
+  -- Draw rectangle on screen
+  -- love.graphics.rectangle(mode, x, y, width, height)
+  love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+
   dragon.draw()
   bat.draw()
 end
