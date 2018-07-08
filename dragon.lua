@@ -32,6 +32,11 @@ return function(console, timer)
   end
 
   dragon.update = function(dt)
+    -- Prevent from flying up above screen
+    if dragonY < -30 then
+      dragonSpeedY = 0
+    end
+
     -- Increase downwards speed with gravitation
     dragonSpeedY = dragonSpeedY + (GRAVITY * dt)
     -- Change postition according to current speed downwards
@@ -61,9 +66,7 @@ return function(console, timer)
 
   dragon.keypressedSpace = function()
     -- Add "jump" upwards
-    if dragonY > 100 then
-      dragonSpeedY = -JUMP_SPEED
-    end
+    dragonSpeedY = -JUMP_SPEED
 
     -- Do the rotation to initial position with some frames
     -- Angle in radians, between current rotation, and minimal allowed rotation

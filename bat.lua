@@ -33,6 +33,11 @@ return function(console, timer)
   end
 
   bat.update = function(dt)
+    -- Prevent from flying up above screen
+    if batY < -15 then
+      batSpeedY = 0
+    end
+
     -- Increase downwards speed with gravitation
     batSpeedY = batSpeedY + (GRAVITY * dt)
     -- Change postition according to current speed downwards
