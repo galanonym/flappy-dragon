@@ -62,7 +62,9 @@ return function(console, timer)
 
   bat.keypressedReturn = function()
     -- Add "jump" upwards
-    batSpeedY = -JUMP_SPEED
+    if batY > 0 then
+      batSpeedY = -JUMP_SPEED
+    end
 
     -- Do the rotation to initial position with some frames
     -- Angle in radians, between current rotation, and minimal allowed rotation

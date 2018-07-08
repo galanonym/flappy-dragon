@@ -61,7 +61,9 @@ return function(console, timer)
 
   dragon.keypressedSpace = function()
     -- Add "jump" upwards
-    dragonSpeedY = -JUMP_SPEED
+    if dragonY > 100 then
+      dragonSpeedY = -JUMP_SPEED
+    end
 
     -- Do the rotation to initial position with some frames
     -- Angle in radians, between current rotation, and minimal allowed rotation
