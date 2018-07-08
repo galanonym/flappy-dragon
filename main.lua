@@ -1,6 +1,6 @@
 -- libraries
-local inspect = require('lib/inspect')
-local console = require('console')(inspect)
+-- local inspect = require('lib/inspect')
+-- local console = require('console')(inspect)
 
 -- modules
 local dragon = require('dragon')
@@ -15,7 +15,6 @@ end
 
 function love.update(dt)
   dragon.update(dt)
-
 end
 
 function love.draw()
