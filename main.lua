@@ -6,19 +6,23 @@ local timer = require('lib/hump/timer')
 -- modules
 local dragon = require('dragon')(console, timer)
 local bat = require('bat')(console, timer)
+local arrow = require('arrow')(console)
 
 function love.load()
   -- Sets display mode and properties of window
   -- love.window.setMode(width, height, flagsTable)
   love.window.setMode(1200, 700)
+  math.randomseed(os.time())
 
   dragon.load()
   bat.load()
+  arrow.load()
 end
 
 function love.update(dt)
   dragon.update(dt)
   bat.update(dt)
+  arrow.update(dt)
 
   -- Activate timer library
   timer.update(dt)
@@ -35,6 +39,7 @@ function love.draw()
 
   dragon.draw()
   bat.draw()
+  arrow.draw()
 end
 
 function love.keypressed(key)
