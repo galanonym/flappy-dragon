@@ -6,16 +6,24 @@ return function(console)
   local arrowX = 1000 -- pixels -- Starting position
   local arrowY = math.random(0, 400) -- pixels
   local arrowSpeedX = 300 -- pixels per second
+  local arrowWidthScaled
 
   local arrow = {}
 
   arrow.load = function()
     arrowImage = love.graphics.newImage('assets/arrow/spritesheet.png')
+    arrowWidthScaled = math.ceil(arrowImage:getWidth() * 0.1)
+    console.log('arrowWidthScaled', arrowWidthScaled)
   end
 
   arrow.update = function(dt)
     -- Change postition according to current speed downwards
     arrowX = arrowX - (arrowSpeedX * dt)
+    if arrowX < -arrowWidthScaled then
+      arrowX = 1000
+      arrowY = math.random(0, 400)
+      arrowSpeedX = math.random(300, 700)
+    end
   end
 
   arrow.draw = function()
