@@ -8,11 +8,14 @@ return function(console, timer)
 
   -- variables
   local dragonImage
+  local dragonImageWidth = 500
+  local dragonImageHeight = 500
   local dragonQuads = {}
   local dragonY = 100 -- pixels -- Starting position
   local dragonRotation = ROTATION_MIN_ALLOWED -- Initial rotation
   local dragonSpeedY = 0 -- pixels per second
   local dragonCurrentQuad -- Quad
+  local dragonScale = 0.3
 
   -- dragon physics variables
   local dragonBody
@@ -27,10 +30,10 @@ return function(console, timer)
 
     -- Define quad for dragonImage
     -- love.graphics.newQuad(x, y, width, height, sheetWidth, sheetHeight) -> Quad
-    dragonQuads[1] = love.graphics.newQuad(0, 0, 500, 500, dragonImage:getDimensions())
-    dragonQuads[2] = love.graphics.newQuad(500, 0, 500, 500, dragonImage:getDimensions())
-    dragonQuads[3] = love.graphics.newQuad(1000, 0, 500, 500, dragonImage:getDimensions())
-    dragonQuads[4] = love.graphics.newQuad(1500, 0, 500, 500, dragonImage:getDimensions())
+    dragonQuads[1] = love.graphics.newQuad(0, 0, dragonImageWidth, dragonImageHeight, dragonImage:getDimensions())
+    dragonQuads[2] = love.graphics.newQuad(500, 0, dragonImageWidth, dragonImageHeight, dragonImage:getDimensions())
+    dragonQuads[3] = love.graphics.newQuad(1000, 0, dragonImageWidth, dragonImageHeight, dragonImage:getDimensions())
+    dragonQuads[4] = love.graphics.newQuad(1500, 0, dragonImageWidth, dragonImageHeight, dragonImage:getDimensions())
 
     -- initial quad
     dragonCurrentQuad = dragonQuads[1]
@@ -76,7 +79,7 @@ return function(console, timer)
 
     -- Draw a drawable object into the screen
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
-    love.graphics.draw(dragonImage, dragonCurrentQuad, 100, dragonY, dragonRotation, 0.3, 0.3, 250, 250)
+    love.graphics.draw(dragonImage, dragonCurrentQuad, 100, dragonY, dragonRotation, dragonScale, dragonScale, 250, 250)
 
 
     love.graphics.setColor(0.28, 0.63, 0.05)
