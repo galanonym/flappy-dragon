@@ -17,7 +17,7 @@ function love.load()
   math.randomseed(os.time())
 
   -- love physics variables
-  love.physics.setMeter(64)
+  love.physics.setMeter(50)
   world = love.physics.newWorld(0, 9.81*64, true)
 
   dragon.load(world)
