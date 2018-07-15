@@ -26,11 +26,16 @@ return function(console, timer)
     483.00, 333.00,
   }
   local dragonPolygonCoordsStomach = {
-    387.00,341.00,
-    305.00,393.00,
-    57.00,333.00,
-    119.00,308.00,
-    201.00,304.00,
+    387.00, 341.00,
+    305.00, 393.00,
+    57.00, 333.00,
+    119.00, 308.00,
+    201.00, 304.00,
+  }
+  local dragonPolygonCoordsTail = {
+    158.00, 306.00,
+    33.00, 198.00,
+    143.00, 230.00,
   }
 
   -- dragon physics variables
@@ -39,6 +44,8 @@ return function(console, timer)
   local dragonFixtureHead
   local dragonShapeStomach
   local dragonFixtureStomach
+  local dragonShapeTail
+  local dragonFixtureTail
 
   local dragon = {}
   dragon.load = function(world)
@@ -67,6 +74,9 @@ return function(console, timer)
 
     dragonShapeStomach = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsStomach, dragonImageWidth, dragonImageHeight, dragonScale))
     dragonFixtureStomach = love.physics.newFixture(dragonBody, dragonShapeStomach)
+
+    dragonShapeTail = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsTail, dragonImageWidth, dragonImageHeight, dragonScale))
+    dragonFixtureTail = love.physics.newFixture(dragonBody, dragonShapeTail)
   end
 
   dragon.update = function(dt)
@@ -107,6 +117,7 @@ return function(console, timer)
     love.graphics.setColor(0.28, 0.63, 0.05)
     love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeHead:getPoints()))
     love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeStomach:getPoints()))
+    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeTail:getPoints()))
 
     -- Activate console library
     console.draw()
@@ -151,13 +162,9 @@ return function(console, timer)
     local coordsTable = {}
     for key, val in pairs(coordsTableOriginal) do
       if key % 2 == 1 then
-        print('przed:', val)
         coordsTable[key] = (val - (width / 2)) * scale
-        print('po:', val)
       else
-        print('przed:', val)
         coordsTable[key] = (val - (height / 2)) * scale
-        print('po:', val)
       end
     end
 
