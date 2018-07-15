@@ -37,7 +37,7 @@ return function(console, timer)
 
     -- define physics variables
     -- body = love.physics.newBody( world, x, y, type )
-    dragonBody = love.physics.newBody(world, 100, dragonY)
+    dragonBody = love.physics.newBody(world, 100, dragonY, 'dynamic')
     -- shape = love.physics.newRectangleShape( width, height )
     dragonShape = love.physics.newRectangleShape(50, 50)
     -- fixture = love.physics.newFixture( body, shape, density )
