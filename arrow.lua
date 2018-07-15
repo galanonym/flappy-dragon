@@ -20,8 +20,11 @@ return function(console)
     arrowWidthScaled = math.ceil(arrowImage:getWidth() * 0.1)
 
     -- define physics variables
-    arrowBody = love.physics.newBody(world, arrowX, arrowY)
+    -- body = love.physics.newBody( world, x, y, type )
+    arrowBody = love.physics.newBody(world, arrowX, arrowY, 'dynamic')
+    -- shape = love.physics.newRectangleShape( width, height )
     arrowShape = love.physics.newRectangleShape(100, 50)
+    -- fixture = love.physics.newFixture( body, shape, density )
     arrowFixture = love.physics.newFixture(arrowBody, arrowShape)
     console.log('arrowWidthScaled', arrowWidthScaled)
   end
