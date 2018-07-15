@@ -1,4 +1,7 @@
 return function(console, timer)
+  -- local functions
+  local toolTransformCoords
+
   -- constants
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
@@ -16,7 +19,7 @@ return function(console, timer)
   local dragonSpeedY = 0 -- pixels per second
   local dragonCurrentQuad -- Quad
   local dragonScale = 0.3
-
+  local dragonPolygonCoords = {36.00, 182.00, 234.00, 311.00, 396.00, 292.00, 489.00, 354.00, 382.00, 345.00, 313.00, 407.00, 59.00, 325.00, 135.00, 297.00}
   -- dragon physics variables
   local dragonBody
   local dragonShape
@@ -42,7 +45,8 @@ return function(console, timer)
     -- body = love.physics.newBody( world, x, y, type )
     dragonBody = love.physics.newBody(world, 100, dragonY, 'dynamic')
     -- shape = love.physics.newRectangleShape( width, height )
-    dragonShape = love.physics.newRectangleShape(50, 50)
+    -- dragonShape = love.physics.newRectangleShape(50, 50)
+    dragonShape = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoords, dragonImageWidth, dragonImageHeight, dragonScale))
     -- fixture = love.physics.newFixture( body, shape, density )
     dragonFixture = love.physics.newFixture(dragonBody, dragonShape)
   end
@@ -122,6 +126,20 @@ return function(console, timer)
       wait(0.05)
       dragonCurrentQuad = dragonQuads[1]
     end)
+  end
+
+  toolTransformCoords = function(coordsTable, width, height, scale)
+    for key, val in pairs(coordsTable) do
+      if key % 2 == 1 then
+        print('przed:', val)
+        val = (val - width) * scale
+        print('po:', val)
+      else
+        print('przed:', val)
+        val = (val - height) * scale
+        print('po:', val)
+      end
+    end
   end
 
   return dragon
