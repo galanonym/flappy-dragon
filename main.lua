@@ -26,7 +26,7 @@ function love.load()
 end
 
 function love.update(dt)
-  world:update(dt)
+  world:update(dt) -- should be first (tutorials use it that way)
 
   dragon.update(dt)
   bat.update(dt)
