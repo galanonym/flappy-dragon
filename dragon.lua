@@ -19,11 +19,26 @@ return function(console, timer)
   local dragonSpeedY = 0 -- pixels per second
   local dragonCurrentQuad -- Quad
   local dragonScale = 0.3
-  local dragonPolygonCoords = {36.00, 182.00, 234.00, 311.00, 396.00, 292.00, 489.00, 354.00, 382.00, 345.00, 313.00, 407.00, 59.00, 325.00, 135.00, 297.00}
+  local dragonPolygonCoordsHead = {
+    480.00, 364.00,
+    359.00, 314.00,
+    397.00, 287.00,
+    483.00, 333.00,
+  }
+  local dragonPolygonCoordsStomach = {
+    387.00,341.00,
+    305.00,393.00,
+    57.00,333.00,
+    119.00,308.00,
+    201.00,304.00,
+  }
+
   -- dragon physics variables
   local dragonBody
-  local dragonShape
-  local dragonFixture
+  local dragonShapeHead
+  local dragonFixtureHead
+  local dragonShapeStomach
+  local dragonFixtureStomach
 
   local dragon = {}
   dragon.load = function(world)
@@ -46,9 +61,12 @@ return function(console, timer)
     dragonBody = love.physics.newBody(world, 100, dragonY, 'dynamic')
     -- shape = love.physics.newRectangleShape( width, height )
     -- dragonShape = love.physics.newRectangleShape(50, 50)
-    dragonShape = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoords, dragonImageWidth, dragonImageHeight, dragonScale))
+    dragonShapeHead = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsHead, dragonImageWidth, dragonImageHeight, dragonScale))
     -- fixture = love.physics.newFixture( body, shape, density )
-    dragonFixture = love.physics.newFixture(dragonBody, dragonShape)
+    dragonFixtureHead = love.physics.newFixture(dragonBody, dragonShapeHead)
+
+    dragonShapeStomach = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsStomach, dragonImageWidth, dragonImageHeight, dragonScale))
+    dragonFixtureStomach = love.physics.newFixture(dragonBody, dragonShapeStomach)
   end
 
   dragon.update = function(dt)
@@ -87,7 +105,8 @@ return function(console, timer)
 
 
     love.graphics.setColor(0.28, 0.63, 0.05)
-    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShape:getPoints()))
+    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeHead:getPoints()))
+    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeStomach:getPoints()))
 
     -- Activate console library
     console.draw()
@@ -128,18 +147,21 @@ return function(console, timer)
     end)
   end
 
-  toolTransformCoords = function(coordsTable, width, height, scale)
-    for key, val in pairs(coordsTable) do
+  toolTransformCoords = function(coordsTableOriginal, width, height, scale)
+    local coordsTable = {}
+    for key, val in pairs(coordsTableOriginal) do
       if key % 2 == 1 then
         print('przed:', val)
-        val = (val - width) * scale
+        coordsTable[key] = (val - (width / 2)) * scale
         print('po:', val)
       else
         print('przed:', val)
-        val = (val - height) * scale
+        coordsTable[key] = (val - (height / 2)) * scale
         print('po:', val)
       end
     end
+
+    return coordsTable
   end
 
   return dragon
