@@ -37,7 +37,7 @@ return function(console, timer)
 
     -- define physics variables
     -- body = love.physics.newBody( world, x, y, type )
-    dragonBody = love.physics.newBody(world, 100, 100)
+    dragonBody = love.physics.newBody(world, 100, dragonY)
     -- shape = love.physics.newRectangleShape( width, height )
     dragonShape = love.physics.newRectangleShape(50, 50)
     -- fixture = love.physics.newFixture( body, shape, density )
@@ -80,7 +80,6 @@ return function(console, timer)
 
 
     love.graphics.setColor(0.28, 0.63, 0.05)
-
     love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShape:getPoints()))
 
     -- Activate console library
