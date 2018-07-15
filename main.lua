@@ -22,7 +22,7 @@ function love.load()
 
   dragon.load(world)
   bat.load()
-  arrow.load()
+  arrow.load(world)
 end
 
 function love.update(dt)

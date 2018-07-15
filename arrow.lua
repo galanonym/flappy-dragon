@@ -8,11 +8,21 @@ return function(console)
   local arrowSpeedX = 300 -- pixels per second
   local arrowWidthScaled
 
+  -- dragon physics variables
+  local arrowBody
+  local arrowShape
+  local arrowFixture
+
   local arrow = {}
 
-  arrow.load = function()
+  arrow.load = function(world)
     arrowImage = love.graphics.newImage('assets/arrow/spritesheet.png')
     arrowWidthScaled = math.ceil(arrowImage:getWidth() * 0.1)
+
+    -- define physics variables
+    arrowBody = love.physics.newBody(world, arrowX, arrowY)
+    arrowShape = love.physics.newRectangleShape(100, 50)
+    arrowFixture = love.physics.newFixture(arrowBody, arrowShape)
     console.log('arrowWidthScaled', arrowWidthScaled)
   end
 
@@ -24,6 +34,9 @@ return function(console)
       arrowY = math.random(0, 400)
       arrowSpeedX = math.random(300, 700)
     end
+    -- update arrowX
+    arrowBody:setX(arrowX)
+    arrowBody:setY(arrowY)
   end
 
   arrow.draw = function()
@@ -33,6 +46,9 @@ return function(console)
     -- Draw a drawable object into the screen
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
     love.graphics.draw(arrowImage, arrowX, arrowY, 0, 0.1, 0.1)
+
+    love.graphics.setColor(0.28, 0.63, 0.05)
+    love.graphics.polygon("fill", arrowBody:getWorldPoints(arrowShape:getPoints()))
   end
 
   return arrow
