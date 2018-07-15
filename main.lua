@@ -8,22 +8,29 @@ local dragon = require('dragon')(console, timer)
 local bat = require('bat')(console, timer)
 local arrow = require('arrow')(console)
 
+local world
+
 function love.load()
   -- Sets display mode and properties of window
   -- love.window.setMode(width, height, flagsTable)
   love.window.setMode(1200, 700)
   math.randomseed(os.time())
 
-  dragon.load()
+  -- love physics variables
+  love.physics.setMeter(64)
+  world = love.physics.newWorld(0, 9.81*64, true)
+
+  dragon.load(world)
   bat.load()
   arrow.load()
 end
 
 function love.update(dt)
+  world:update(dt)
+
   dragon.update(dt)
   bat.update(dt)
   arrow.update(dt)
-
   -- Activate timer library
   timer.update(dt)
 end

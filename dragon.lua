@@ -14,8 +14,13 @@ return function(console, timer)
   local dragonSpeedY = 0 -- pixels per second
   local dragonCurrentQuad -- Quad
 
+  -- dragon physics variables
+  local dragonBody
+  local dragonShape
+  local dragonFixture
+
   local dragon = {}
-  dragon.load = function()
+  dragon.load = function(world)
     -- Load image from file
     -- love.graphics.newImage(filename) -> Image
     dragonImage = love.graphics.newImage('assets/dragon/spritesheet.png')
@@ -29,6 +34,14 @@ return function(console, timer)
 
     -- initial quad
     dragonCurrentQuad = dragonQuads[1]
+
+    -- define physics variables
+    -- body = love.physics.newBody( world, x, y, type )
+    dragonBody = love.physics.newBody(world, 100, 100)
+    -- shape = love.physics.newRectangleShape( width, height )
+    dragonShape = love.physics.newRectangleShape(50, 50)
+    -- fixture = love.physics.newFixture( body, shape, density )
+    dragonFixture = love.physics.newFixture(dragonBody, dragonShape)
   end
 
   dragon.update = function(dt)
@@ -47,6 +60,11 @@ return function(console, timer)
       dragonRotation = dragonRotation + (ROTATION_DOWNWARD_CHANGE * dt)
     end
 
+    -- update dragonY
+    dragonBody:setY(dragonY)
+    -- update dragonRotation
+    dragonBody:setAngle(dragonRotation)
+
     console.log('dragonY', dragonY)
     console.log('dragonRotation', dragonRotation)
   end
@@ -59,6 +77,11 @@ return function(console, timer)
     -- Draw a drawable object into the screen
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
     love.graphics.draw(dragonImage, dragonCurrentQuad, 100, dragonY, dragonRotation, 0.3, 0.3, 250, 250)
+
+
+    love.graphics.setColor(0.28, 0.63, 0.05)
+
+    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShape:getPoints()))
 
     -- Activate console library
     console.draw()
