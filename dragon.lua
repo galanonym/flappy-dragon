@@ -124,10 +124,9 @@ return function(console, inspect, timer)
       dragonRotation = dragonRotation + (ROTATION_DOWNWARD_CHANGE * dt)
     end
 
-    -- update dragonY
-    dragonBody:setY(dragonY)
-    -- update dragonRotation
-    dragonBody:setAngle(dragonRotation)
+    -- Update dragonPhysics according to sprite postition and rotation
+    dragonPhysics.body:setY(dragonY)
+    dragonPhysics.body:setAngle(dragonRotation)
 
     console.log('dragonY', dragonY)
     console.log('dragonRotation', dragonRotation)
@@ -142,11 +141,12 @@ return function(console, inspect, timer)
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
     love.graphics.draw(dragonImage, dragonCurrentQuad, 100, dragonY, dragonRotation, dragonScale, dragonScale, 250, 250)
 
-
     love.graphics.setColor(0.28, 0.63, 0.05)
-    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeHead:getPoints()))
-    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeStomach:getPoints()))
-    love.graphics.polygon("fill", dragonBody:getWorldPoints(dragonShapeTail:getPoints()))
+    for _, shape in pairs(dragonPhysics.shapes) do
+      -- Draws a polygon on the screen 
+      -- love.graphics.polygon(mode, vertices) -- mode [DrawMode] 'fill' or 'line', vertices - vertices of the polygon as a table
+      love.graphics.polygon('fill', dragonPhysics.body:getWorldPoints(shape:getPoints()))
+    end
 
     -- Activate console library
     console.draw()
