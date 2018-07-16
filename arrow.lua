@@ -5,7 +5,7 @@ return function(console)
   local arrowImage
   local arrowX = 1000 -- pixels -- Starting position
   local arrowY = math.random(0, 400) -- pixels
-  local arrowSpeedX = 300 -- pixels per second
+  local arrowSpeedX = 700 -- pixels per second
   local arrowWidthScaled
 
   -- dragon physics variables
