@@ -52,9 +52,14 @@ return function()
     love.graphics.setColor(0.28, 0.63, 0.05)
     for _, shape in pairs(physicsData.shapes) do
       -- Draws a polygon on the screen
-      -- love.graphics.polygon(mode, vertices) -- mode [DrawMode] 'fill' or 'line', vertices - vertices of the polygon as a table
+      -- love.graphics.polygon(mode, vertices)
+      -- mode [DrawMode] 'fill' or 'line', vertices - vertices of the polygon as a table
       love.graphics.polygon('fill', physicsData.body:getWorldPoints(shape:getPoints()))
     end
+  end
+
+  physicsModel.getBody = function()
+    return physicsData.body
   end
 
   toolTransformCoords = function(coordsTableOriginal, width, height, scale)
