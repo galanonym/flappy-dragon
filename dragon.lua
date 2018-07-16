@@ -1,4 +1,7 @@
+local dragonPhysics = require('physicsModelFactory')()
+
 return function(console, inspect, timer)
+
   -- local functions
   local toolTransformCoords
 
@@ -22,19 +25,16 @@ return function(console, inspect, timer)
   local dragonScale = 0.3
 
   -- dragon physics variables
-  local dragonPhysics = {}
-  dragonPhysics.shapes = {}
-  dragonPhysics.fixtures = {}
-  dragonPhysics.polygons = {}
+  local dragonPolygons = {}
 
-  dragonPhysics.polygons[1] = {
+  dragonPolygons[1] = {
     -- head
     480.00, 364.00,
     359.00, 314.00,
     397.00, 287.00,
     483.00, 333.00,
   }
-  dragonPhysics.polygons[2] = {
+  dragonPolygons[2] = {
     -- stomac
     359.00,311.00,
     417.00,341.00,
@@ -43,7 +43,7 @@ return function(console, inspect, timer)
     119.00,308.00,
     201.00,304.00,
   }
-  dragonPhysics.polygons[3] = {
+  dragonPolygons[3] = {
     -- tail
     193.00,300.00,
     160.00,306.00,
@@ -68,18 +68,27 @@ return function(console, inspect, timer)
     -- initial quad
     dragonCurrentQuad = dragonQuads[1]
 
+    dragonPhysics.load(
+      dragonPolygons,
+      world,
+      dragonX,
+      dragonY,
+      dragonImageWidth,
+      dragonImageHeight,
+      dragonScale
+    )
     -- define physics variables
     -- body = love.physics.newBody( world, x, y, type )
-    dragonPhysics.body = love.physics.newBody(world, dragonX, dragonY, 'dynamic')
-
-    -- for loop adding shapes and fixtures to dragonPhysics
-    for key, polygonCoords in pairs(dragonPhysics.polygons) do
-      -- shape = love.physics.newPolygonShape( x1, y1, ,x2, y2, ...)
-      -- 8 veritces at most, must be convex
-      dragonPhysics.shapes[key] = love.physics.newPolygonShape(toolTransformCoords(polygonCoords, dragonImageWidth, dragonImageHeight, dragonScale))
-      -- fixture = love.physics.newFixture( body, shape, density )
-      dragonPhysics.fixtures[key] = love.physics.newFixture(dragonPhysics.body, dragonPhysics.shapes[key])
-    end
+    -- dragonPhysics.body = love.physics.newBody(world, dragonX, dragonY, 'dynamic')
+    --
+    -- -- for loop adding shapes and fixtures to dragonPhysics
+    -- for key, polygonCoords in pairs(dragonPhysics.polygons) do
+    --   -- shape = love.physics.newPolygonShape( x1, y1, ,x2, y2, ...)
+    --   -- 8 veritces at most, must be convex
+    --   dragonPhysics.shapes[key] = love.physics.newPolygonShape(toolTransformCoords(polygonCoords, dragonImageWidth, dragonImageHeight, dragonScale))
+    --   -- fixture = love.physics.newFixture( body, shape, density )
+    --   dragonPhysics.fixtures[key] = love.physics.newFixture(dragonPhysics.body, dragonPhysics.shapes[key])
+    -- end
 
   end -- dragon.load
 
@@ -100,8 +109,8 @@ return function(console, inspect, timer)
     end
 
     -- Update dragonPhysics according to sprite postition and rotation
-    dragonPhysics.body:setY(dragonY)
-    dragonPhysics.body:setAngle(dragonRotation)
+    -- dragonPhysics.body:setY(dragonY)
+    -- dragonPhysics.body:setAngle(dragonRotation)
 
     console.log('dragonY', dragonY)
     console.log('dragonRotation', dragonRotation)
@@ -116,12 +125,13 @@ return function(console, inspect, timer)
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
     love.graphics.draw(dragonImage, dragonCurrentQuad, dragonX, dragonY, dragonRotation, dragonScale, dragonScale, 250, 250)
 
-    love.graphics.setColor(0.28, 0.63, 0.05)
-    for _, shape in pairs(dragonPhysics.shapes) do
-      -- Draws a polygon on the screen
-      -- love.graphics.polygon(mode, vertices) -- mode [DrawMode] 'fill' or 'line', vertices - vertices of the polygon as a table
-      love.graphics.polygon('fill', dragonPhysics.body:getWorldPoints(shape:getPoints()))
-    end
+    dragonPhysics.draw()
+    -- love.graphics.setColor(0.28, 0.63, 0.05)
+    -- for _, shape in pairs(dragonPhysics.shapes) do
+    --   -- Draws a polygon on the screen
+    --   -- love.graphics.polygon(mode, vertices) -- mode [DrawMode] 'fill' or 'line', vertices - vertices of the polygon as a table
+    --   love.graphics.polygon('fill', dragonPhysics.body:getWorldPoints(shape:getPoints()))
+    -- end
 
     -- Activate console library
     -- @todo check this shit
