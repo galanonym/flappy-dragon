@@ -4,7 +4,7 @@ local console = require('console')(inspect)
 local timer = require('lib/hump/timer')
 
 -- modules
-local dragon = require('dragon')(console, timer)
+local dragon = require('dragon')(console, inspect, timer)
 local bat = require('bat')(console, timer)
 local arrow = require('arrow')(console)
 

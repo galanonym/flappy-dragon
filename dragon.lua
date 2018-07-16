@@ -1,4 +1,4 @@
-return function(console, timer)
+return function(console, inspect, timer)
   -- local functions
   local toolTransformCoords
 
@@ -19,6 +19,15 @@ return function(console, timer)
   local dragonSpeedY = 0 -- pixels per second
   local dragonCurrentQuad -- Quad
   local dragonScale = 0.3
+
+  -- dragon physics variables
+  local dragonBody
+  local dragonShapeHead
+  local dragonFixtureHead
+  local dragonShapeStomach
+  local dragonFixtureStomach
+  local dragonShapeTail
+  local dragonFixtureTail
   local dragonPolygonCoordsHead = {
     480.00, 364.00,
     359.00, 314.00,
@@ -40,14 +49,34 @@ return function(console, timer)
     143.00,230.00,
   }
 
-  -- dragon physics variables
-  local dragonBody
-  local dragonShapeHead
-  local dragonFixtureHead
-  local dragonShapeStomach
-  local dragonFixtureStomach
-  local dragonShapeTail
-  local dragonFixtureTail
+  local dragonPhysics = {}
+  dragonPhysics.shapes = {}
+  dragonPhysics.fixtures = {}
+  dragonPhysics.polygons = {}
+  dragonPhysics.polygons[1] = {
+    -- head
+    480.00, 364.00,
+    359.00, 314.00,
+    397.00, 287.00,
+    483.00, 333.00,
+  }
+  dragonPhysics.polygons[2] = {
+    -- stomac
+    359.00,311.00,
+    417.00,341.00,
+    305.00,393.00,
+    57.00,333.00,
+    119.00,308.00,
+    201.00,304.00,
+  }
+  dragonPhysics.polygons[3] = {
+    -- tail
+    193.00,300.00,
+    160.00,306.00,
+    33.00,198.00,
+    143.00,230.00,
+  }
+  console.log('dragonPhysics', dragonPhysics)
 
   local dragon = {}
   dragon.load = function(world)
@@ -67,12 +96,23 @@ return function(console, timer)
 
     -- define physics variables
     -- body = love.physics.newBody( world, x, y, type )
-    dragonBody = love.physics.newBody(world, 100, dragonY, 'dynamic')
+    dragonPhysics.body = love.physics.newBody(world, 100, dragonY, 'dynamic')
+
+
+
+    for _, polygonCoords in pairs(dragonPhysics.polygons) do
+      print(inspect(polygonCoords))
+    end
+
     -- shape = love.physics.newRectangleShape( width, height )
     -- dragonShape = love.physics.newRectangleShape(50, 50)
     dragonShapeHead = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsHead, dragonImageWidth, dragonImageHeight, dragonScale))
+
     -- fixture = love.physics.newFixture( body, shape, density )
     dragonFixtureHead = love.physics.newFixture(dragonBody, dragonShapeHead)
+
+
+
 
     dragonShapeStomach = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsStomach, dragonImageWidth, dragonImageHeight, dragonScale))
     dragonFixtureStomach = love.physics.newFixture(dragonBody, dragonShapeStomach)
