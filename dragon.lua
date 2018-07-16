@@ -21,34 +21,6 @@ return function(console, inspect, timer)
   local dragonScale = 0.3
 
   -- dragon physics variables
-  local dragonBody
-  local dragonShapeHead
-  local dragonFixtureHead
-  local dragonShapeStomach
-  local dragonFixtureStomach
-  local dragonShapeTail
-  local dragonFixtureTail
-  local dragonPolygonCoordsHead = {
-    480.00, 364.00,
-    359.00, 314.00,
-    397.00, 287.00,
-    483.00, 333.00,
-  }
-  local dragonPolygonCoordsStomach = {
-    359.00,311.00,
-    417.00,341.00,
-    305.00,393.00,
-    57.00,333.00,
-    119.00,308.00,
-    201.00,304.00,
-  }
-  local dragonPolygonCoordsTail = {
-    193.00,300.00,
-    160.00,306.00,
-    33.00,198.00,
-    143.00,230.00,
-  }
-
   local dragonPhysics = {}
   dragonPhysics.shapes = {}
   dragonPhysics.fixtures = {}
@@ -143,12 +115,13 @@ return function(console, inspect, timer)
 
     love.graphics.setColor(0.28, 0.63, 0.05)
     for _, shape in pairs(dragonPhysics.shapes) do
-      -- Draws a polygon on the screen 
+      -- Draws a polygon on the screen
       -- love.graphics.polygon(mode, vertices) -- mode [DrawMode] 'fill' or 'line', vertices - vertices of the polygon as a table
       love.graphics.polygon('fill', dragonPhysics.body:getWorldPoints(shape:getPoints()))
     end
 
     -- Activate console library
+    -- @todo check this shit
     console.draw()
   end
 
@@ -194,11 +167,10 @@ return function(console, inspect, timer)
         coordsTable[key] = (val - (width / 2)) * scale
       else
         coordsTable[key] = (val - (height / 2)) * scale
-      end
-    end
-
+      end -- if
+    end -- for
     return coordsTable
-  end
+  end -- function
 
   return dragon
 end
