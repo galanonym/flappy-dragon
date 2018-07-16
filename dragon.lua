@@ -14,6 +14,7 @@ return function(console, inspect, timer)
   local dragonImageWidth = 500
   local dragonImageHeight = 500
   local dragonQuads = {}
+  local dragonX = 100 -- pixels -- Starting position -- stays always the same
   local dragonY = 100 -- pixels -- Starting position
   local dragonRotation = ROTATION_MIN_ALLOWED -- Initial rotation
   local dragonSpeedY = 0 -- pixels per second
@@ -25,6 +26,7 @@ return function(console, inspect, timer)
   dragonPhysics.shapes = {}
   dragonPhysics.fixtures = {}
   dragonPhysics.polygons = {}
+
   dragonPhysics.polygons[1] = {
     -- head
     480.00, 364.00,
@@ -68,7 +70,7 @@ return function(console, inspect, timer)
 
     -- define physics variables
     -- body = love.physics.newBody( world, x, y, type )
-    dragonPhysics.body = love.physics.newBody(world, 100, dragonY, 'dynamic')
+    dragonPhysics.body = love.physics.newBody(world, dragonX, dragonY, 'dynamic')
 
     -- for loop adding shapes and fixtures to dragonPhysics
     for key, polygonCoords in pairs(dragonPhysics.polygons) do
@@ -78,6 +80,7 @@ return function(console, inspect, timer)
       -- fixture = love.physics.newFixture( body, shape, density )
       dragonPhysics.fixtures[key] = love.physics.newFixture(dragonPhysics.body, dragonPhysics.shapes[key])
     end
+
   end -- dragon.load
 
   dragon.update = function(dt)
@@ -111,7 +114,7 @@ return function(console, inspect, timer)
 
     -- Draw a drawable object into the screen
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
-    love.graphics.draw(dragonImage, dragonCurrentQuad, 100, dragonY, dragonRotation, dragonScale, dragonScale, 250, 250)
+    love.graphics.draw(dragonImage, dragonCurrentQuad, dragonX, dragonY, dragonRotation, dragonScale, dragonScale, 250, 250)
 
     love.graphics.setColor(0.28, 0.63, 0.05)
     for _, shape in pairs(dragonPhysics.shapes) do
@@ -159,18 +162,6 @@ return function(console, inspect, timer)
       dragonCurrentQuad = dragonQuads[1]
     end)
   end
-
-  toolTransformCoords = function(coordsTableOriginal, width, height, scale)
-    local coordsTable = {}
-    for key, val in pairs(coordsTableOriginal) do
-      if key % 2 == 1 then
-        coordsTable[key] = (val - (width / 2)) * scale
-      else
-        coordsTable[key] = (val - (height / 2)) * scale
-      end -- if
-    end -- for
-    return coordsTable
-  end -- function
 
   return dragon
 end
