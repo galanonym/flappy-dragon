@@ -128,6 +128,11 @@ return function(console, timer)
     -- Add "jump" upwards
     dragonSpeedY = -JUMP_SPEED
 
+    -- Add "jump" upwards to physics body
+    -- body.applyForce(fx, fy)
+    dragonPhysics.getBody():setLinearVelocity(0, 0)
+    dragonPhysics.getBody():applyLinearImpulse(0, -500)
+
     -- Do the rotation to initial position with some frames
     -- Angle in radians, between current rotation, and minimal allowed rotation
     local sum = math.abs(dragonRotation) + math.abs(ROTATION_MIN_ALLOWED)
