@@ -98,28 +98,15 @@ return function(console, inspect, timer)
     -- body = love.physics.newBody( world, x, y, type )
     dragonPhysics.body = love.physics.newBody(world, 100, dragonY, 'dynamic')
 
-
-
-    for _, polygonCoords in pairs(dragonPhysics.polygons) do
-      print(inspect(polygonCoords))
+    -- for loop adding shapes and fixtures to dragonPhysics
+    for key, polygonCoords in pairs(dragonPhysics.polygons) do
+      -- shape = love.physics.newPolygonShape( x1, y1, ,x2, y2, ...)
+      -- 8 veritces at most, must be convex
+      dragonPhysics.shapes[key] = love.physics.newPolygonShape(toolTransformCoords(polygonCoords, dragonImageWidth, dragonImageHeight, dragonScale))
+      -- fixture = love.physics.newFixture( body, shape, density )
+      dragonPhysics.fixtures[key] = love.physics.newFixture(dragonPhysics.body, dragonPhysics.shapes[key])
     end
-
-    -- shape = love.physics.newRectangleShape( width, height )
-    -- dragonShape = love.physics.newRectangleShape(50, 50)
-    dragonShapeHead = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsHead, dragonImageWidth, dragonImageHeight, dragonScale))
-
-    -- fixture = love.physics.newFixture( body, shape, density )
-    dragonFixtureHead = love.physics.newFixture(dragonBody, dragonShapeHead)
-
-
-
-
-    dragonShapeStomach = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsStomach, dragonImageWidth, dragonImageHeight, dragonScale))
-    dragonFixtureStomach = love.physics.newFixture(dragonBody, dragonShapeStomach)
-
-    dragonShapeTail = love.physics.newPolygonShape(toolTransformCoords(dragonPolygonCoordsTail, dragonImageWidth, dragonImageHeight, dragonScale))
-    dragonFixtureTail = love.physics.newFixture(dragonBody, dragonShapeTail)
-  end
+  end -- dragon.load
 
   dragon.update = function(dt)
     -- Prevent from flying up above screen
