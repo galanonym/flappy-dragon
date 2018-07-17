@@ -75,19 +75,23 @@ return function(console, timer)
   end -- dragon.load
 
   dragon.update = function(dt)
-    -- Prevent from flying up above screen
-    if dragonY < -30 then
-      dragonSpeedY = 0
-    end
+    -- -- Prevent from flying up above screen
+    -- if dragonY < -30 then
+    --   dragonPhysics.getBody():setLinearVelocity(0, 0)
+    -- end
+    --
+    -- -- Increase downwards speed with gravitation
+    -- dragonSpeedY = dragonSpeedY + (GRAVITY * dt)
+    -- -- Change postition according to current speed downwards
+    -- dragonY = dragonY + (dragonSpeedY * dt)
 
-    -- Increase downwards speed with gravitation
-    dragonSpeedY = dragonSpeedY + (GRAVITY * dt)
-    -- Change postition according to current speed downwards
-    dragonY = dragonY + (dragonSpeedY * dt)
+    -- Update according to physics model
+    dragonY = dragonPhysics.getBody():getY()
 
     -- Change rotation when freefalling down, until max rotation reached
     if dragonRotation < ROTATION_MAX_ALLOWED then
       dragonRotation = dragonRotation + (ROTATION_DOWNWARD_CHANGE * dt)
+      dragonPhysics.getBody():setAngle(dragonRotation)
     end
 
     -- Update dragonPhysics according to sprite postition and rotation
@@ -96,7 +100,7 @@ return function(console, timer)
 
     console.log('dragonY', dragonY)
     console.log('dragonRotation', dragonRotation)
-  end
+  end -- dragon.update
 
   dragon.draw = function()
     -- Set color used for drawing
@@ -122,7 +126,7 @@ return function(console, timer)
     -- Activate console library
     -- @todo check this shit
     console.draw()
-  end
+  end --dragon.draw
 
   dragon.keypressedSpace = function()
     -- Add "jump" upwards
