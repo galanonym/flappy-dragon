@@ -117,7 +117,7 @@ return function(console, timer)
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     batPhysics.getBody():setLinearVelocity(0, 0)
-    batPhysics.getBody():applyLinearImpulse(0, -500)
+    batPhysics.getBody():applyLinearImpulse(0, -200)
 
     -- Do the rotation to initial position with some frames
     -- Angle in radians, between current rotation, and minimal allowed rotation
