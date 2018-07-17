@@ -46,6 +46,7 @@ return function()
     end
 
     physicsData.body:setAngularDamping(0.6)
+    physicsData.body:setLinearDamping(0.6)
   end -- physicsModel.load
 
   physicsModel.update = function()
