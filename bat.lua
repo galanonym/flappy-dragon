@@ -6,8 +6,6 @@ return function(console, timer)
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
   local ROTATION_MAX_ALLOWED = 1 -- radians
-  local GRAVITY = 700 -- acceleration down
-  local JUMP_SPEED = 500 -- speed change up
 
   -- variables
   local batImage
@@ -17,9 +15,8 @@ return function(console, timer)
   local batY = 200 -- pixels -- Starting position
   local batX = 250
   local batRotation = ROTATION_MIN_ALLOWED -- Initial rotation
-  local batSpeedY = 0 -- pixels per second
   local batCurrentQuad -- Quad
-  local batScale = 0.3
+  local batScale = 0.2
 
   local batPolygons = {}
   batPolygons[1] = {
@@ -76,10 +73,6 @@ return function(console, timer)
     --   batSpeedY = 0
     -- end
 
-    -- Increase downwards speed with gravitation
-    -- batSpeedY = batSpeedY + (GRAVITY * dt)
-
-
     -- Fixed x position of the bat
     batPhysics.getBody():setX(batX)
     -- Update according to physics model
@@ -121,9 +114,6 @@ return function(console, timer)
   end
 
   bat.keypressedReturn = function()
-    -- Add "jump" upwards
-    batSpeedY = -JUMP_SPEED
-
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     batPhysics.getBody():setLinearVelocity(0, 0)

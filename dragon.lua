@@ -6,8 +6,6 @@ return function(console, timer)
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
   local ROTATION_MAX_ALLOWED = 1 -- radians
-  local GRAVITY = 700 -- acceleration down
-  local JUMP_SPEED = 500 -- speed change up
 
   -- variables
   local dragonImage
@@ -17,7 +15,6 @@ return function(console, timer)
   local dragonX = 100 -- pixels -- Starting position -- stays always the same
   local dragonY = 100 -- pixels -- Starting position
   local dragonRotation = ROTATION_MIN_ALLOWED -- Initial rotation
-  local dragonSpeedY = 0 -- pixels per second
   local dragonCurrentQuad -- Quad
   local dragonScale = 0.3
 
@@ -124,9 +121,6 @@ return function(console, timer)
   end --dragon.draw
 
   dragon.keypressedSpace = function()
-    -- Add "jump" upwards
-    dragonSpeedY = -JUMP_SPEED
-
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     dragonPhysics.getBody():setLinearVelocity(0, 0)
