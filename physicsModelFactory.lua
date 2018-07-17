@@ -25,6 +25,9 @@ return function()
     -- body = love.physics.newBody( world, x, y, type )
     physicsData.body = love.physics.newBody(world, startingBodyX, startingBodyY, 'dynamic')
 
+    -- set default damping
+    physicsData.body:setAngularDamping(0.1)
+
     physicsData.polygons = polygons
 
     -- for loop adding shapes and fixtures to physicsData
