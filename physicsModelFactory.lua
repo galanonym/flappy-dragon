@@ -25,9 +25,6 @@ return function()
     -- body = love.physics.newBody( world, x, y, type )
     physicsData.body = love.physics.newBody(world, startingBodyX, startingBodyY, 'dynamic')
 
-    -- set default damping -- recommended to be between 0 to 0.1
-    physicsData.body:setAngularDamping(0.1)
-
     physicsData.polygons = polygons
 
     -- for loop adding shapes and fixtures to physicsData
@@ -43,9 +40,12 @@ return function()
         )
       )
 
+      -- set default damping -- recommended to be between 0 to 0.1
       -- fixture = love.physics.newFixture( body, shape, density )
       physicsData.fixtures[key] = love.physics.newFixture(physicsData.body, physicsData.shapes[key])
     end
+
+    physicsData.body:setAngularDamping(0.6)
   end -- physicsModel.load
 
   physicsModel.update = function()
