@@ -25,7 +25,7 @@ return function()
     -- body = love.physics.newBody( world, x, y, type )
     physicsData.body = love.physics.newBody(world, startingBodyX, startingBodyY, 'dynamic')
 
-    -- set default damping
+    -- set default damping -- recommended to be between 0 to 0.1
     physicsData.body:setAngularDamping(0.1)
 
     physicsData.polygons = polygons
