@@ -75,15 +75,13 @@ return function(console, timer)
   end -- dragon.load
 
   dragon.update = function(dt)
-    -- -- Prevent from flying up above screen
+    -- -- @todo Prevent from flying up above screen
     -- if dragonY < -30 then
     --   dragonPhysics.getBody():setLinearVelocity(0, 0)
     -- end
-    --
-    -- -- Increase downwards speed with gravitation
-    -- dragonSpeedY = dragonSpeedY + (GRAVITY * dt)
-    -- -- Change postition according to current speed downwards
-    -- dragonY = dragonY + (dragonSpeedY * dt)
+
+    -- Fixed x position of the dragon
+    dragonPhysics.getBody():setX(dragonX)
 
     -- Update according to physics model
     dragonY = dragonPhysics.getBody():getY()
@@ -93,10 +91,6 @@ return function(console, timer)
       dragonRotation = dragonRotation + (ROTATION_DOWNWARD_CHANGE * dt)
       dragonPhysics.getBody():setAngle(dragonRotation)
     end
-
-    -- Update dragonPhysics according to sprite postition and rotation
-    -- dragonPhysics.body:setY(dragonY)
-    -- dragonPhysics.body:setAngle(dragonRotation)
 
     console.log('dragonY', dragonY)
     console.log('dragonRotation', dragonRotation)
