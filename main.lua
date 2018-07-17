@@ -21,7 +21,7 @@ function love.load()
   world = love.physics.newWorld(0, 9.81*64, true)
 
   dragon.load(world)
-  bat.load()
+  bat.load(world)
   arrow.load(world)
 end
 
