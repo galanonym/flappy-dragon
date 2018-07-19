@@ -2,6 +2,7 @@
 local inspect = require('lib/inspect')
 local console = require('console')(inspect)
 local timer = require('lib/hump/timer')
+local push = require('lib/push')
 
 -- modules
 local dragon = require('dragon')(console, timer)
@@ -14,7 +15,12 @@ local world
 function love.load()
   -- Sets display mode and properties of window
   -- love.window.setMode(width, height, flagsTable)
-  love.window.setMode(1200, 700)
+  -- love.window.setMode(1200, 700)
+  local windowWidth, windowHeight = love.window.getMode()
+  push:setupScreen(1200, 700, windowWidth, windowHeight, {
+    resizable = true
+  })
+
   math.randomseed(os.time())
 
   paralax.load()
@@ -41,19 +47,23 @@ function love.update(dt)
 end
 
 function love.draw()
+  push:start()
+
   -- Set color used for sky
   -- love.graphics.setColor(red, green, blue, alfa)
   love.graphics.setColor(109 / 255, 184 / 255, 226 / 255)
 
   -- Draw blue sky on screen
   -- love.graphics.rectangle(mode, x, y, width, height)
-  love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+  love.graphics.rectangle('fill', 0, 0, 1200, 700)
 
   paralax.draw()
 
   dragon.draw()
   bat.draw()
   arrow.draw()
+
+  push:finish()
 end
 
 function love.keypressed(key)
@@ -72,3 +82,8 @@ function love.keypressed(key)
     bat.keypressedReturn()
   end
 end
+
+function love.resize(w, h)
+    push:resize(w, h)
+end
+
