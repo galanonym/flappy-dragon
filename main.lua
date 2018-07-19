@@ -43,7 +43,7 @@ end
 function love.draw()
   -- Set color used for sky
   -- love.graphics.setColor(red, green, blue, alfa)
-  love.graphics.setColor(0.14, 0.36, 0.46)
+  love.graphics.setColor(0.2768, 0.3337, 0.3321)
 
   -- Draw blue sky on screen
   -- love.graphics.rectangle(mode, x, y, width, height)
