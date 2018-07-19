@@ -7,12 +7,9 @@ local timer = require('lib/hump/timer')
 local dragon = require('dragon')(console, timer)
 local bat = require('bat')(console, timer)
 local arrow = require('arrow')(console)
+local paralax = require('paralax')(console)
 
 local world
-
-local cloudImage
-local cloudImageX
-local cloudLoopPoint
 
 function love.load()
   -- Sets display mode and properties of window
@@ -20,10 +17,7 @@ function love.load()
   love.window.setMode(1200, 700)
   math.randomseed(os.time())
 
-  -- backgrounds
-  cloudImage = love.graphics.newImage('assets/clouds/spritesheet.png')
-  cloudImageX = 0
-  cloudLoopPoint = 3840 * 0.3
+  paralax.load()
 
   -- love physics variables
   love.physics.setMeter(50)
@@ -37,10 +31,7 @@ end
 function love.update(dt)
   world:update(dt) -- should be first (tutorials use it that way)
 
-  cloudImageX = (cloudImageX + 600 * dt)
-  if cloudImageX > cloudLoopPoint then
-    cloudImageX = 3
-  end
+  paralax.update(dt)
 
   dragon.update(dt)
   bat.update(dt)
@@ -58,12 +49,7 @@ function love.draw()
   -- love.graphics.rectangle(mode, x, y, width, height)
   love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 
-  -- Set background color
-  love.graphics.setColor(1, 1, 1)
-
-  -- draw the background at the negative looping point
-  -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
-  love.graphics.draw(cloudImage, -cloudImageX, 0, 0, 0.3, 0.3)
+  paralax.draw()
 
   dragon.draw()
   bat.draw()
