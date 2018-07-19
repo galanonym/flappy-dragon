@@ -3,24 +3,23 @@ return function()
 
   -- variables
   local cloudImage
-  local cloudImageX
-  local cloudLoopPoint
+  local cloudX = 0
+  local cloudScale = 0.3
+  local cloudSpeed = 30
+  local cloudLoopPoint = 3840 * cloudScale
 
   -- main module object
   local paralax = {}
 
   -- LOVE functions
   paralax.load = function()
-    -- backgrounds
     cloudImage = love.graphics.newImage('assets/clouds/spritesheet.png')
-    cloudImageX = 0
-    cloudLoopPoint = 3840 * 0.3
   end -- load
 
   paralax.update = function(dt)
-    cloudImageX = (cloudImageX + 600 * dt)
-    if cloudImageX > cloudLoopPoint then
-      cloudImageX = 3
+    cloudX = (cloudX + cloudSpeed * dt)
+    if cloudX > cloudLoopPoint then
+      cloudX = 3
     end
 
   end -- update
@@ -31,7 +30,7 @@ return function()
 
     -- draw the background at the negative looping point
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
-    love.graphics.draw(cloudImage, -cloudImageX, 0, 0, 0.3, 0.3)
+    love.graphics.draw(cloudImage, -cloudX, 0, 0, cloudScale, cloudScale)
   end -- draw
 
   return paralax
