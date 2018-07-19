@@ -16,6 +16,11 @@ function love.load()
   love.window.setMode(1200, 700)
   math.randomseed(os.time())
 
+  -- backgrounds
+  local cloudImage = love.graphics.newImage('clouds/spritesheet.png')
+  local cloudImageX = 0
+  local cloudLoopPoint = 3840
+
   -- love physics variables
   love.physics.setMeter(50)
   world = love.physics.newWorld(0, 9.81*64, true)
@@ -36,13 +41,19 @@ function love.update(dt)
 end
 
 function love.draw()
-  -- Set color used for drawing
+  -- Set color used for sky
   -- love.graphics.setColor(red, green, blue, alfa)
   love.graphics.setColor(0.14, 0.36, 0.46)
 
-  -- Draw rectangle on screen
+  -- Draw blue sky on screen
   -- love.graphics.rectangle(mode, x, y, width, height)
   love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+
+  -- Set background color
+  love.graphics.setColor(1, 1, 1)
+
+  -- draw the background at the negative looping point
+  love.graphics.draw(cloudImage, -backgroundScroll, 0)
 
   dragon.draw()
   bat.draw()
