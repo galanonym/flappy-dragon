@@ -61,7 +61,7 @@ return function(console)
     )
   end -- load
 
-  arrow.update = function()
+  arrow.update = function(dt)
     -- Update according to physics model
     arrowY = arrowPhysics.getBody():getY()
     -- Update according to physics model
