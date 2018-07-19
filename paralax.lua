@@ -15,6 +15,12 @@ return function()
   local mountineSpeed = 40
   local mountineLoopPoint = 3840 * mountineScale
 
+  local treeImage
+  local treeX = 0
+  local treeY = 400
+  local treeScale = 0.5
+  local treeSpeed = 80
+  local treeLoopPoint = 3840 * treeScale
   -- main module object
   local paralax = {}
 
@@ -22,6 +28,7 @@ return function()
   paralax.load = function()
     cloudImage = love.graphics.newImage('assets/clouds/spritesheet.png')
     mountineImage = love.graphics.newImage('assets/mounitnes/spritesheet.png')
+    treeImage = love.graphics.newImage('assets/trees/spritesheet.png')
   end -- load
 
   paralax.update = function(dt)
@@ -34,6 +41,11 @@ return function()
     if mountineX > mountineLoopPoint then
       mountineX = 3
     end
+
+    treeX = (treeX + treeSpeed * dt)
+    if treeX > treeLoopPoint then
+      treeX = 3
+    end
   end -- update
 
   paralax.draw = function()
@@ -44,6 +56,7 @@ return function()
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
     love.graphics.draw(cloudImage, -cloudX, 0, 0, cloudScale, cloudScale)
     love.graphics.draw(mountineImage, -mountineX, mountineY, 0, mountineScale, mountineScale)
+    love.graphics.draw(treeImage, -treeX, treeY, 0, treeScale, treeScale)
   end -- draw
 
   return paralax
