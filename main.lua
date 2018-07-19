@@ -10,6 +10,10 @@ local arrow = require('arrow')(console)
 
 local world
 
+local cloudImage
+local cloudImageX
+local cloudLoopPoint
+
 function love.load()
   -- Sets display mode and properties of window
   -- love.window.setMode(width, height, flagsTable)
@@ -17,9 +21,9 @@ function love.load()
   math.randomseed(os.time())
 
   -- backgrounds
-  local cloudImage = love.graphics.newImage('clouds/spritesheet.png')
-  local cloudImageX = 0
-  local cloudLoopPoint = 3840
+  cloudImage = love.graphics.newImage('assets/clouds/spritesheet.png')
+  cloudImageX = 0
+  cloudLoopPoint = 3840 * 0.3
 
   -- love physics variables
   love.physics.setMeter(50)
@@ -32,6 +36,11 @@ end
 
 function love.update(dt)
   world:update(dt) -- should be first (tutorials use it that way)
+
+  cloudImageX = (cloudImageX + 600 * dt)
+  if cloudImageX > cloudLoopPoint then
+    cloudImageX = 3
+  end
 
   dragon.update(dt)
   bat.update(dt)
@@ -53,7 +62,8 @@ function love.draw()
   love.graphics.setColor(1, 1, 1)
 
   -- draw the background at the negative looping point
-  love.graphics.draw(cloudImage, -backgroundScroll, 0)
+  -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
+  love.graphics.draw(cloudImage, -cloudImageX, 0, 0, 0.3, 0.3)
 
   dragon.draw()
   bat.draw()
