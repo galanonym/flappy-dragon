@@ -2,20 +2,19 @@ return function(console)
   -- constants
 
   -- variables
-  local timeToShoot = math.random(10, 50)
+  local timeToShoot = 0.2; -- first arrow
+
   -- main module object
   local enemySpawner = {}
 
   -- LOVE functions
   enemySpawner.update = function(dt)
-    console.log('timeToShoot', timeToShoot)
-   while timeToShoot > 0 do
-     timeToShoot = timeToShoot - dt
-   end
-   if timeToShoot < 0 then
-     print('shooting arrow')
-     timeToShoot = math.random(10, 50)
-   end
+    if timeToShoot > 0 then
+      timeToShoot = timeToShoot - dt
+    else
+      timeToShoot = math.random(1, 10)
+      print('shooting arrow')
+    end
   end -- update
 
   return enemySpawner
