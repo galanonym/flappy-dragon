@@ -7,7 +7,6 @@ local push = require('lib/push')
 -- modules
 local dragon = require('dragon')(console, timer)
 local bat = require('bat')(console, timer)
--- local arrow = require('arrow')(console)
 local paralax = require('paralax')(console)
 local enemySpawner = require('enemySpawner')(console)
 
@@ -32,7 +31,6 @@ function love.load()
 
   dragon.load(world)
   bat.load(world)
-  -- arrow.load(world)
 end
 
 function love.update(dt)
@@ -42,8 +40,8 @@ function love.update(dt)
 
   dragon.update(dt)
   bat.update(dt)
-  -- arrow.update(dt)
   enemySpawner.update(dt, world)
+
   -- Activate timer library
   timer.update(dt)
 end
@@ -63,7 +61,8 @@ function love.draw()
 
   dragon.draw()
   bat.draw()
-  -- arrow.draw()
+
+  enemySpawner.draw()
 
   push:finish()
 end

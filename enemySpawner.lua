@@ -4,7 +4,7 @@ local console = require('console')(inspect)
 -- modules
 local arrowFactory = require('arrow')(console)
 
-return function(console)
+return function()
   -- constants
 
   -- variables
@@ -31,6 +31,12 @@ return function(console)
       projectile.update(dt)
     end
   end -- update
+
+  enemySpawner.draw = function()
+    for _, projectile in pairs(projectiles) do
+      projectile.draw()
+    end
+  end
 
   return enemySpawner
 end -- closure
