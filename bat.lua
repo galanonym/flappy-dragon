@@ -1,7 +1,8 @@
--- modules
+local timer = require('lib/hump/timer')
+
 local batPhysics = require('physicsModelFactory')()
 
-return function(console, timer)
+return function()
   -- constants
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
@@ -83,9 +84,6 @@ return function(console, timer)
       batRotation = batRotation + (ROTATION_DOWNWARD_CHANGE * dt)
       batPhysics.getBody():setAngle(batRotation)
     end
-
-    console.log('batY', batY)
-    console.log('batRotation', batRotation)
   end
 
   bat.draw = function()
@@ -108,9 +106,6 @@ return function(console, timer)
     )
 
     batPhysics.draw()
-
-    -- Activate console library
-    console.draw()
   end
 
   bat.keypressedReturn = function()

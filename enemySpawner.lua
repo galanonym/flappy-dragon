@@ -1,10 +1,4 @@
-local inspect = require('lib/inspect')
-local console = require('console')(inspect)
-
--- modules
-local arrowFactory = require('arrow')(console)
-
-return function()
+return function(arrowFactory)
   -- constants
 
   -- variables
@@ -21,7 +15,6 @@ return function()
     else
       timeToShoot = math.random(1, 10)
 
-      print('shooting arrow')
       local arrow = arrowFactory()
       arrow.load(world)
       projectiles[#projectiles + 1] = arrow

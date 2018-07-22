@@ -1,7 +1,6 @@
--- modules
 local arrowPhysics = require('physicsModelFactory')()
 
-return function(console)
+return function()
   return function()
     -- variables
     local arrowImage
@@ -73,8 +72,6 @@ return function(console)
         arrowPhysics.getBody():applyLinearImpulse(-50, 0)
         arrowIsShot = true
       end
-
-      console.log('arrowY', arrowY)
     end -- update
 
     arrow.draw = function()
@@ -96,10 +93,6 @@ return function(console)
       )
 
       arrowPhysics.draw()
-
-      -- Activate console library
-      -- @todo check this shit
-      console.draw()
     end -- draw
 
     return arrow

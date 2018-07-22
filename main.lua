@@ -1,14 +1,13 @@
 -- libraries
-local inspect = require('lib/inspect')
-local console = require('console')(inspect)
 local timer = require('lib/hump/timer')
 local push = require('lib/push')
 
 -- modules
-local dragon = require('dragon')(console, timer)
-local bat = require('bat')(console, timer)
-local paralax = require('paralax')(console)
-local enemySpawner = require('enemySpawner')(console)
+local dragon = require('dragon')()
+local bat = require('bat')()
+local paralax = require('paralax')()
+local arrowFactory = require('arrow')()
+local enemySpawner = require('enemySpawner')(arrowFactory)
 
 local world
 

@@ -1,7 +1,8 @@
--- modules
+local timer = require('lib/hump/timer')
+
 local dragonPhysics = require('physicsModelFactory')()
 
-return function(console, timer)
+return function()
   -- constants
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
@@ -90,8 +91,8 @@ return function(console, timer)
       dragonPhysics.getBody():setAngle(dragonRotation)
     end
 
-    console.log('dragonY', dragonY)
-    console.log('dragonRotation', dragonRotation)
+    -- console.log('dragonY', dragonY)
+    -- console.log('dragonRotation', dragonRotation)
   end -- dragon.update
 
   dragon.draw = function()
@@ -114,10 +115,6 @@ return function(console, timer)
     )
 
     dragonPhysics.draw()
-
-    -- Activate console library
-    -- @todo check this shit
-    console.draw()
   end --dragon.draw
 
   dragon.keypressedSpace = function()

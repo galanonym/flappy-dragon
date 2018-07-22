@@ -1,4 +1,6 @@
-return function(inspect)
+local inspect = require('lib/inspect')
+
+return function()
   -- public functions
   local log, draw
 
