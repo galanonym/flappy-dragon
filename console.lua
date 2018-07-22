@@ -46,7 +46,7 @@ return function(inspect)
     text = text .. ' '
     text = text .. inspectUserdata(variables[index])
 
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(0, 0, 0)
     love.graphics.print(text, 10, 14 * counter)
   end
 
