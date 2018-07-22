@@ -29,6 +29,7 @@ return function()
   local treeScale = 0.6
   local treeSpeed = 80
   local treeLoopPoint = 3840 * treeScale
+
   -- main module object
   local paralax = {}
 
@@ -66,8 +67,9 @@ return function()
     -- Set background color
     love.graphics.setColor(1, 1, 1)
 
-    -- draw the background at the negative looping point
+    -- Draw the background at the negative looping point
     -- love.graphics.draw(drawable, [quad], x, y, rotation, scaleFactorX, scaleFactorY, originOffsetX, originOffsetY)
+    -- Set x parameter to opposit so the background move to the left
     love.graphics.draw(cloudImage, -cloudX, cloudY, 0, cloudScale, cloudScale)
     love.graphics.draw(farCloudImage, -farCloudX, farCloudY, 0, farCloudScale, farCloudScale)
     love.graphics.draw(mountineImage, -mountineX, mountineY, 0, mountineScale, mountineScale)
