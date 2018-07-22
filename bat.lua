@@ -1,14 +1,14 @@
 local timer = require('lib/hump/timer')
 
-local batPhysics = require('physicsModelFactory')()
-
-return function()
+return function(physicsModelFactory)
   -- constants
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
   local ROTATION_MAX_ALLOWED = 1 -- radians
 
   -- variables
+  local batPhysics = physicsModelFactory()
+
   local batImage
   local batImageWidth = 500
   local batImageHeight = 500

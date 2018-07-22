@@ -3,10 +3,11 @@ local timer = require('lib/hump/timer')
 local push = require('lib/push')
 
 -- modules
-local dragon = require('dragon')()
-local bat = require('bat')()
 local paralax = require('paralax')()
-local arrowFactory = require('arrow')()
+local physicsModelFactory = require('physicsModelFactory')
+local dragon = require('dragon')(physicsModelFactory)
+local bat = require('bat')(physicsModelFactory)
+local arrowFactory = require('arrow')(physicsModelFactory)
 local enemySpawner = require('enemySpawner')(arrowFactory)
 
 local world

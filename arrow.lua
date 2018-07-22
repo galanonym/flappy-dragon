@@ -1,8 +1,7 @@
-local arrowPhysics = require('physicsModelFactory')()
-
-return function()
+return function(physicsModelFactory)
   return function()
     -- variables
+    local arrowPhysics = physicsModelFactory()
     local arrowImage
     local arrowImageWidth = 500
     local arrowImageHeight = 500

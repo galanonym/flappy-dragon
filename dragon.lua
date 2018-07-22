@@ -1,14 +1,13 @@
 local timer = require('lib/hump/timer')
 
-local dragonPhysics = require('physicsModelFactory')()
-
-return function()
+return function(physicsModelFactory)
   -- constants
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
   local ROTATION_MAX_ALLOWED = 1 -- radians
 
   -- variables
+  local dragonPhysics = physicsModelFactory()
   local dragonImage
   local dragonImageWidth = 500
   local dragonImageHeight = 500
