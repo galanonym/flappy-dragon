@@ -2,18 +2,11 @@
 local arrowPhysics = require('physicsModelFactory')()
 
 return function(console)
-  -- constants
-
   -- variables
   local arrowImage
   local arrowImageWidth = 500
   local arrowImageHeight = 500
-  local arrowX = 1000 -- pixels -- Starting position -- stays always the same
-  local arrowY = math.random(0, 400) -- pixels -- Starting position
-  local arrowRotation = 0
   local arrowScale = 0.1
-  local arrowIsShot = false
-
 
   local arrowPolygons = {}
   arrowPolygons[1] = {
@@ -40,6 +33,12 @@ return function(console)
     991.00,169.00,
     992.00,20.00,
   }
+
+  local arrowX = 1000 -- pixels -- Starting position -- stays always the same
+  local arrowY = math.random(0, 400) -- pixels -- Starting position
+  local arrowRotation = 0
+  local arrowIsShot = false
+
 
   -- main module object
   local arrow = {}
