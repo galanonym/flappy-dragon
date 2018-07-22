@@ -43,7 +43,7 @@ function love.update(dt)
   dragon.update(dt)
   bat.update(dt)
   -- arrow.update(dt)
-  enemySpawner.update(dt)
+  enemySpawner.update(dt, world)
   -- Activate timer library
   timer.update(dt)
 end

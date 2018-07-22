@@ -1,3 +1,6 @@
+local inspect = require('lib/inspect')
+local console = require('console')(inspect)
+
 -- modules
 local arrowFactory = require('arrow')(console)
 
@@ -12,7 +15,7 @@ return function(console)
   local enemySpawner = {}
 
   -- LOVE functions
-  enemySpawner.update = function(dt)
+  enemySpawner.update = function(dt, world)
     if timeToShoot > 0 then
       timeToShoot = timeToShoot - dt
     else
@@ -20,6 +23,7 @@ return function(console)
 
       print('shooting arrow')
       local arrow = arrowFactory()
+      arrow.load(world)
       projectiles[#projectiles + 1] = arrow
     end
 
