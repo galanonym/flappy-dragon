@@ -10,6 +10,7 @@ local bat = require('bat')(physicsModelFactory)
 local arrowFactory = require('arrowFactory')(physicsModelFactory)
 local enemySpawner = require('enemySpawner')(arrowFactory)
 
+-- variables
 local world
 
 function love.load()
