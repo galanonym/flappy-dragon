@@ -9,6 +9,7 @@ local dragon = require('dragon')(console, timer)
 local bat = require('bat')(console, timer)
 local arrow = require('arrow')(console)
 local paralax = require('paralax')(console)
+local enemySpawner = require('enemySpawner')(console)
 
 local world
 
@@ -42,6 +43,7 @@ function love.update(dt)
   dragon.update(dt)
   bat.update(dt)
   arrow.update(dt)
+  enemySpawner.update(dt)
   -- Activate timer library
   timer.update(dt)
 end
@@ -86,4 +88,3 @@ end
 function love.resize(w, h)
     push:resize(w, h)
 end
-
