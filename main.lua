@@ -7,7 +7,7 @@ local paralax = require('paralax')()
 local physicsModelFactory = require('physicsModelFactory')
 local dragon = require('dragon')(physicsModelFactory)
 local bat = require('bat')(physicsModelFactory)
-local arrowFactory = require('arrow')(physicsModelFactory)
+local arrowFactory = require('arrowFactory')(physicsModelFactory)
 local enemySpawner = require('enemySpawner')(arrowFactory)
 
 local world
