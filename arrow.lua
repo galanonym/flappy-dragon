@@ -64,11 +64,13 @@ return function(physicsModelFactory)
       arrowY = arrowPhysics.getBody():getY()
       -- Update according to physics model
       arrowX = arrowPhysics.getBody():getX()
+      -- Update according to physics model
+      arrowRotation = arrowPhysics.getBody():getAngle()
 
       -- Initial arrow shot
       if arrowIsShot == false then
         -- Body:applyLinearImpulse( ix, iy )
-        arrowPhysics.getBody():applyLinearImpulse(-50, 0)
+        arrowPhysics.getBody():applyLinearImpulse(-230, -70)
         arrowIsShot = true
       end
     end -- update

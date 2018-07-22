@@ -13,7 +13,7 @@ return function(arrowFactory)
     if timeToShoot > 0 then
       timeToShoot = timeToShoot - dt
     else
-      timeToShoot = math.random(1, 10)
+      timeToShoot = math.random(0.1, 0.3)
 
       local arrow = arrowFactory()
       arrow.load(world)
