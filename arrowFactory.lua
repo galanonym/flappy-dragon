@@ -101,6 +101,14 @@ return function(physicsModelFactory)
       arrowPhysics.draw()
     end -- draw
 
+    -- public functions
+    arrow.isOffScreen = function()
+      if arrowX < -5000 or arrowY < -5000 then
+        return true
+      end
+      return false
+    end
+
     return arrow
   end -- closure
 end -- closure
