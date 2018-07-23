@@ -70,10 +70,13 @@ return function(physicsModelFactory)
 
   bat.update = function(dt)
     -- Prevent from flying up above screen
-    -- if batY < -15 then
-    --   batSpeedY = 0
-    -- end
+    if batY < 30 then
+      batPhysics.getBody():applyLinearImpulse(0, 50)
+    end
 
+    if batY < 0 then
+      batPhysics.getBody():applyLinearImpulse(0, 50)
+    end
     -- Fixed x position of the bat
     batPhysics.getBody():setX(batX)
     -- Update according to physics model

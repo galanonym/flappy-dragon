@@ -74,10 +74,13 @@ return function(physicsModelFactory)
 
   dragon.update = function(dt)
     -- -- @todo Prevent from flying up above screen
-    -- if dragonY < -30 then
-    --   dragonPhysics.getBody():setLinearVelocity(0, 0)
-    -- end
+    if dragonY < 40 then
+      dragonPhysics.getBody():applyLinearImpulse(0, 100)
+    end
 
+    if dragonY < 0 then
+      dragonPhysics.getBody():applyLinearImpulse(0, 100)
+    end
     -- Fixed x position of the dragon
     dragonPhysics.getBody():setX(dragonX)
 

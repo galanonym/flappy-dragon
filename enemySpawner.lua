@@ -1,5 +1,3 @@
-local inspect = require('lib/inspect')
-
 return function(arrowFactory)
   -- constants
 
@@ -15,8 +13,7 @@ return function(arrowFactory)
     if timeToShoot > 0 then
       timeToShoot = timeToShoot - dt
     else
-      timeToShoot = -1
-      -- timeToShoot = math.random(0.001, 0.1)
+      timeToShoot = math.random(1, 5)
 
       local arrow = arrowFactory()
       arrow.load(world)
@@ -30,6 +27,7 @@ return function(arrowFactory)
     for index, projectile in pairs(projectiles) do
       if projectile.isOffScreen() then
         projectiles[index] = nil
+        print('arrow', index, 'OffScreen')
       end
     end
   end -- update
