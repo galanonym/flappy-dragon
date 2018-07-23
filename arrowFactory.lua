@@ -33,8 +33,8 @@ return function(physicsModelFactory)
       992.00,20.00,
     }
 
-    local arrowX = 1000 -- pixels -- Starting position -- stays always the same
-    local arrowY = math.random(0, 400) -- pixels -- Starting position
+    local arrowX = 1200 -- pixels -- Starting position -- stays always the same
+    local arrowY = math.random(0, 500) -- pixels -- Starting position
     local arrowRotation = 0
     local arrowIsShot = false
 
@@ -67,10 +67,15 @@ return function(physicsModelFactory)
       -- Update according to physics model
       arrowRotation = arrowPhysics.getBody():getAngle()
 
+      -- Update angle
+      arrowPhysics.getBody():setAngle(arrowRotation - 0.2 * dt)
+
       -- Initial arrow shot
       if arrowIsShot == false then
         -- Body:applyLinearImpulse( ix, iy )
-        arrowPhysics.getBody():applyLinearImpulse(-230, -70)
+        arrowPhysics.getBody():setLinearVelocity(-30, 0)
+        arrowPhysics.getBody():applyLinearImpulse(-300, -100)
+        arrowPhysics.getBody():setAngle(0.15)
         arrowIsShot = true
       end
     end -- update
