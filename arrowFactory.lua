@@ -103,7 +103,9 @@ return function(physicsModelFactory)
 
     -- public functions
     arrow.isOffScreen = function()
-      if arrowX < -5000 or arrowY < -5000 then
+      if arrowX < -1000 or arrowY > 5000 then
+        arrowPhysics = nil
+        arrowImage = nil
         return true
       end
       return false
