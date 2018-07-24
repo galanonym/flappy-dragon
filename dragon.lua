@@ -1,11 +1,8 @@
-local inspect = require('lib/inspect')
+-- local inspect = require('lib/inspect')
 local timer = require('lib/hump/timer')
 
 return function(physicsModelFactory)
   -- constants
-  local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
-  local ROTATION_MIN_ALLOWED = -0.6 -- radians
-  local ROTATION_MAX_ALLOWED = 0.2 -- radians
 
   -- variables
   local dragonPhysics = physicsModelFactory()
@@ -15,7 +12,7 @@ return function(physicsModelFactory)
   local dragonQuads = {}
   local dragonX = 100 -- pixels -- Starting position -- stays always the same
   local dragonY = 100 -- pixels -- Starting position
-  local dragonRotation = ROTATION_MIN_ALLOWED -- Initial rotation
+  local dragonRotation = -0.6 -- Initial rotation in radians
   local dragonCurrentQuad -- Quad
   local dragonScale = 0.3
 
@@ -74,7 +71,7 @@ return function(physicsModelFactory)
 
   end -- dragon.load
 
-  dragon.update = function(dt)
+  dragon.update = function()
     -- -- @todo Prevent from flying up above screen
     if dragonY < 40 then
       dragonPhysics.getBody():applyLinearImpulse(0, 100)
@@ -87,50 +84,48 @@ return function(physicsModelFactory)
     -- Fixed x position of the dragon
     dragonPhysics.getBody():setX(dragonX)
 
-    -- Update according to physics model
+    -- Update sprite according to physics model
+    -- We use those variables right under too
     dragonX = dragonPhysics.getBody():getX()
     dragonY = dragonPhysics.getBody():getY()
     dragonRotation = dragonPhysics.getBody():getAngle()
 
-    -- Change rotation when freefalling down, until max rotation reached
-    -- isFreeFalling = false
-    local _, y = dragonPhysics.getBody():getLinearVelocity()
-    if (y > 0) then
-      if (dragonRotation > 4.71 and dragonRotation <= 6.28320) or (dragonRotation >= 0 and dragonRotation < 1.22) then
-        dragonPhysics.getBody():applyTorque(2000)
-        print('freefall positive torque')
-      end
-      if dragonRotation > 1.22 and dragonRotation < 4.71 then
-        dragonPhysics.getBody():applyTorque(-2000)
-        print('freefall negative torque')
-      end
-    end
-
-    if (y < 0) then
-      if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
-        dragonPhysics.getBody():applyTorque(4000)
-        print('flyup negative torque')
-      end
-      if dragonRotation >= 0 and dragonRotation < 3.14 then
-        dragonPhysics.getBody():applyTorque(-4000)
-        print('flyup positive torque')
-      end
-    end
-
+    -- Make rotation value always between 0 and 6.28320
     if (dragonRotation > 6.28319) then
       dragonRotation = 0
       dragonPhysics.getBody():setAngle(0)
     end
-
     if (dragonRotation < 0) then
       dragonRotation = 6.28320
       dragonPhysics.getBody():setAngle(6.28320)
     end
 
-    print(dragonRotation)
+    -- Check velocity in Y direction
+    local _, velocityY = dragonPhysics.getBody():getLinearVelocity()
 
-    -- console.log('dragonY', dragonY)
-    -- console.log('dragonRotation', dragonRotation)
+    -- If moving down
+    if (velocityY > 0) then
+      -- Check if dragon head is pointing right
+      if (dragonRotation > 4.71 and dragonRotation <= 6.28320) or (dragonRotation >= 0 and dragonRotation < 1.22) then
+        dragonPhysics.getBody():applyTorque(2000)
+      end
+      -- Check if dragon head is pointing left
+      if dragonRotation > 1.22 and dragonRotation < 4.71 then
+        dragonPhysics.getBody():applyTorque(-2000)
+      end
+    end
+
+    -- If moving up
+    if (velocityY < 0) then
+      -- Check if dragon head is pointing up
+      if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
+        dragonPhysics.getBody():applyTorque(4000)
+      end
+      -- Check if dragon head is pointing down
+      if dragonRotation >= 0 and dragonRotation < 3.14 then
+        dragonPhysics.getBody():applyTorque(-4000)
+      end
+    end -- if
   end -- dragon.update
 
   dragon.draw = function()
@@ -161,29 +156,14 @@ return function(physicsModelFactory)
     dragonPhysics.getBody():setLinearVelocity(0, 0)
     dragonPhysics.getBody():applyLinearImpulse(0, -500)
 
-    -- if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
-    --   dragonPhysics.getBody():applyAngularImpulse(500)
-    --   print('flyup negative torque')
-    -- end
-    -- if dragonRotation >= 0 and dragonRotation < 3.14 then
-    --   dragonPhysics.getBody():applyAngularImpulse(-500)
-    --   print('flyup positive torque')
-    -- end
-
-    -- Do the rotation to initial position with some frames
-    -- Angle in radians, between current rotation, and minimal allowed rotation
-    local sum = math.abs(dragonRotation) + math.abs(ROTATION_MIN_ALLOWED)
-     -- Step is radians to change for each frame.
-    local step = sum / 16
-    timer.script(function(wait)
-      -- Abort when current rotation reaches minimal allowed rotation
-      while dragonRotation > ROTATION_MIN_ALLOWED do
-        -- Change dragonRotation
-        -- dragonRotation = dragonRotation - step
-        -- Make tween effect
-        wait(0.001)
-      end
-    end)
+    if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
+      dragonPhysics.getBody():applyAngularImpulse(1000)
+      print('flyup negative torque')
+    end
+    if dragonRotation >= 0 and dragonRotation < 3.14 then
+      dragonPhysics.getBody():applyAngularImpulse(-1000)
+      print('flyup positive torque')
+    end
 
     -- Change quads when flying up with the dragon
     timer.script(function(wait)
