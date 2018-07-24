@@ -156,12 +156,14 @@ return function(physicsModelFactory)
     dragonPhysics.getBody():setLinearVelocity(0, 0)
     dragonPhysics.getBody():applyLinearImpulse(0, -500)
 
+    -- @todo Add nice comment
     if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
-      dragonPhysics.getBody():applyAngularImpulse(1000)
+      local absoluteRotation = dragonRotation - 3.14
+      dragonPhysics.getBody():applyAngularImpulse(1000 * absoluteRotation)
       print('flyup negative torque')
     end
     if dragonRotation >= 0 and dragonRotation < 3.14 then
-      dragonPhysics.getBody():applyAngularImpulse(-1000)
+      dragonPhysics.getBody():applyAngularImpulse(-1000 * dragonRotation)
       print('flyup positive torque')
     end
 
