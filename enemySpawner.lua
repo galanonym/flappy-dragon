@@ -27,7 +27,6 @@ return function(arrowFactory)
     for index, projectile in pairs(projectiles) do
       if projectile.isOffScreen() then
         projectiles[index] = nil
-        print('arrow', index, 'OffScreen')
       end
     end
   end -- update
