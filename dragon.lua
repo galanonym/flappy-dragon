@@ -1,10 +1,11 @@
+local inspect = require('lib/inspect')
 local timer = require('lib/hump/timer')
 
 return function(physicsModelFactory)
   -- constants
   local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
   local ROTATION_MIN_ALLOWED = -0.6 -- radians
-  local ROTATION_MAX_ALLOWED = 1 -- radians
+  local ROTATION_MAX_ALLOWED = 0.2 -- radians
 
   -- variables
   local dragonPhysics = physicsModelFactory()
@@ -22,25 +23,25 @@ return function(physicsModelFactory)
   dragonPolygons[1] = {
     -- head
     480.00, 364.00,
-    359.00, 314.00,
-    397.00, 287.00,
     483.00, 333.00,
+    397.00, 287.00,
+    359.00, 314.00,
   }
   dragonPolygons[2] = {
     -- stomac
     359.00,311.00,
-    417.00,341.00,
-    305.00,393.00,
-    57.00,333.00,
-    119.00,308.00,
     201.00,304.00,
+    119.00,308.00,
+    57.00,333.00,
+    305.00,393.00,
+    417.00,341.00,
   }
   dragonPolygons[3] = {
     -- tail
     193.00,300.00,
-    160.00,306.00,
-    33.00,198.00,
     143.00,230.00,
+    33.00,198.00,
+    160.00,306.00,
   }
 
   -- main module object
@@ -70,6 +71,7 @@ return function(physicsModelFactory)
       dragonImageHeight,
       dragonScale
     )
+
   end -- dragon.load
 
   dragon.update = function(dt)
@@ -81,17 +83,38 @@ return function(physicsModelFactory)
     if dragonY < 0 then
       dragonPhysics.getBody():applyLinearImpulse(0, 100)
     end
+
     -- Fixed x position of the dragon
     dragonPhysics.getBody():setX(dragonX)
 
     -- Update according to physics model
+    dragonX = dragonPhysics.getBody():getX()
     dragonY = dragonPhysics.getBody():getY()
+    dragonRotation = dragonPhysics.getBody():getAngle()
 
     -- Change rotation when freefalling down, until max rotation reached
-    if dragonRotation < ROTATION_MAX_ALLOWED then
-      dragonRotation = dragonRotation + (ROTATION_DOWNWARD_CHANGE * dt)
-      dragonPhysics.getBody():setAngle(dragonRotation)
+    -- isFreeFalling = false
+    local _, y = dragonPhysics.getBody():getLinearVelocity()
+    if (y > 0) then
+      if dragonRotation < ROTATION_MAX_ALLOWED or dragonRotation > 4.71 then
+        -- dragonRotation = dragonRotation + (ROTATION_DOWNWARD_CHANGE * dt)
+        -- dragonPhysics.getBody():setAngle(dragonRotation)
+        dragonPhysics.getBody():applyTorque(1000)
+        print('applying torque')
+      end
     end
+
+    if (dragonRotation > 6.28319) then
+      dragonRotation = 0
+      dragonPhysics.getBody():setAngle(0)
+    end
+
+    if (dragonRotation < -6.28319) then
+      dragonRotation = 0
+      dragonPhysics.getBody():setAngle(0)
+    end
+
+    print(dragonRotation)
 
     -- console.log('dragonY', dragonY)
     -- console.log('dragonRotation', dragonRotation)
@@ -134,7 +157,7 @@ return function(physicsModelFactory)
       -- Abort when current rotation reaches minimal allowed rotation
       while dragonRotation > ROTATION_MIN_ALLOWED do
         -- Change dragonRotation
-        dragonRotation = dragonRotation - step
+        -- dragonRotation = dragonRotation - step
         -- Make tween effect
         wait(0.001)
       end

@@ -58,7 +58,7 @@ return function()
       -- Draws a polygon on the screen
       -- love.graphics.polygon(mode, vertices)
       -- mode [DrawMode] 'fill' or 'line', vertices - vertices of the polygon as a table
-      -- love.graphics.polygon('fill', physicsData.body:getWorldPoints(shape:getPoints()))
+      love.graphics.polygon('fill', physicsData.body:getWorldPoints(shape:getPoints()))
     end
   end
 
