@@ -96,11 +96,24 @@ return function(physicsModelFactory)
     -- isFreeFalling = false
     local _, y = dragonPhysics.getBody():getLinearVelocity()
     if (y > 0) then
-      if dragonRotation < ROTATION_MAX_ALLOWED or dragonRotation > 4.71 then
-        -- dragonRotation = dragonRotation + (ROTATION_DOWNWARD_CHANGE * dt)
-        -- dragonPhysics.getBody():setAngle(dragonRotation)
-        dragonPhysics.getBody():applyTorque(1000)
-        print('applying torque')
+      if (dragonRotation > 4.71 and dragonRotation <= 6.28320) or (dragonRotation >= 0 and dragonRotation < 1.22) then
+        dragonPhysics.getBody():applyTorque(2000)
+        print('freefall positive torque')
+      end
+      if dragonRotation > 1.22 and dragonRotation < 4.71 then
+        dragonPhysics.getBody():applyTorque(-2000)
+        print('freefall negative torque')
+      end
+    end
+
+    if (y < 0) then
+      if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
+        dragonPhysics.getBody():applyTorque(4000)
+        print('flyup negative torque')
+      end
+      if dragonRotation >= 0 and dragonRotation < 3.14 then
+        dragonPhysics.getBody():applyTorque(-4000)
+        print('flyup positive torque')
       end
     end
 
@@ -109,9 +122,9 @@ return function(physicsModelFactory)
       dragonPhysics.getBody():setAngle(0)
     end
 
-    if (dragonRotation < -6.28319) then
-      dragonRotation = 0
-      dragonPhysics.getBody():setAngle(0)
+    if (dragonRotation < 0) then
+      dragonRotation = 6.28320
+      dragonPhysics.getBody():setAngle(6.28320)
     end
 
     print(dragonRotation)
@@ -147,6 +160,15 @@ return function(physicsModelFactory)
     -- body.applyForce(fx, fy)
     dragonPhysics.getBody():setLinearVelocity(0, 0)
     dragonPhysics.getBody():applyLinearImpulse(0, -500)
+
+    -- if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
+    --   dragonPhysics.getBody():applyAngularImpulse(500)
+    --   print('flyup negative torque')
+    -- end
+    -- if dragonRotation >= 0 and dragonRotation < 3.14 then
+    --   dragonPhysics.getBody():applyAngularImpulse(-500)
+    --   print('flyup positive torque')
+    -- end
 
     -- Do the rotation to initial position with some frames
     -- Angle in radians, between current rotation, and minimal allowed rotation

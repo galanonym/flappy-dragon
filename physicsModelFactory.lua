@@ -45,7 +45,7 @@ return function()
       physicsData.fixtures[key] = love.physics.newFixture(physicsData.body, physicsData.shapes[key])
     end
 
-    physicsData.body:setAngularDamping(0.6)
+    physicsData.body:setAngularDamping(1.6)
     physicsData.body:setLinearDamping(0.6)
   end -- physicsModel.load
 
