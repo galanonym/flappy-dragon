@@ -12,6 +12,7 @@ local enemySpawner = require('enemySpawner')(arrowFactory)
 
 -- variables
 local world
+local beginContact
 
 function love.load()
   -- Sets display mode and properties of window
@@ -29,6 +30,7 @@ function love.load()
   -- love physics variables
   love.physics.setMeter(50)
   world = love.physics.newWorld(0, 9.81*64, true)
+  world:setCallbacks(beginContact)
 
   dragon.load(world)
   bat.load(world)
@@ -87,4 +89,8 @@ end
 
 function love.resize(w, h)
     push:resize(w, h)
+end
+
+function beginContact(fixtureA, fixtureB, collisionObject)
+  print('made contact')
 end
