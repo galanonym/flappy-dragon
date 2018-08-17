@@ -18,7 +18,8 @@ return function()
       startingBodyY,
       originalImageWidth,
       originalImageHeight,
-      imageScale
+      imageScale,
+      userDatas
     )
 
     -- define physics variables
@@ -43,6 +44,9 @@ return function()
       -- set default damping -- recommended to be between 0 to 0.1
       -- fixture = love.physics.newFixture( body, shape, density )
       physicsData.fixtures[key] = love.physics.newFixture(physicsData.body, physicsData.shapes[key])
+
+      -- update fixture with userData which is a name (string)
+      physicsData.fixtures[key]:setUserData(userDatas[key])
     end
 
     physicsData.body:setAngularDamping(1.6)

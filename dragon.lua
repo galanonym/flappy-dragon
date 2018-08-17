@@ -16,6 +16,9 @@ return function(physicsModelFactory)
   local dragonCurrentQuad -- Quad
   local dragonScale = 0.3
 
+  local dragonUserDatas = {
+    'head', 'stomach', 'tail'
+  }
   local dragonPolygons = {}
   dragonPolygons[1] = {
     -- head
@@ -25,7 +28,7 @@ return function(physicsModelFactory)
     359.00, 314.00,
   }
   dragonPolygons[2] = {
-    -- stomac
+    -- stomach
     359.00,311.00,
     201.00,304.00,
     119.00,308.00,
@@ -66,7 +69,8 @@ return function(physicsModelFactory)
       dragonY,
       dragonImageWidth,
       dragonImageHeight,
-      dragonScale
+      dragonScale,
+      dragonUserDatas
     )
 
   end -- dragon.load

@@ -92,5 +92,7 @@ function love.resize(w, h)
 end
 
 function beginContact(fixtureA, fixtureB, collisionObject)
-  print('made contact')
+  local nameA = fixtureA:getUserData()
+  local nameB = fixtureB:getUserData()
+  print('made contact', nameA, nameB)
 end
