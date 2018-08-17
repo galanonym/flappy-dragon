@@ -1,6 +1,7 @@
 -- libraries
 local timer = require('lib/hump/timer')
 local push = require('lib/push')
+local inspect = require('lib/inspect')
 
 -- modules
 local paralax = require('paralax')()
@@ -91,15 +92,36 @@ function love.resize(w, h)
     push:resize(w, h)
 end
 
-function beginContact(fixtureA, fixtureB, collisionObject)
+function beginContact(fixtureA, fixtureB, constactObject)
   local nameA = fixtureA:getUserData()
   local nameB = fixtureB:getUserData()
 
   if (string.sub(nameA, 1, 6) == 'dragon' and nameB == 'arrow head') then
-    print ('arrow head hit dragon')
-  end 
+
+    local dragonBody = fixtureA:getBody()
+    local arrowBody = fixtureB:getBody()
+
+    local x, y = constactObject:getPositions()
+
+    -- print ('arrow head hit dragon', x, y, inspect(dragonBody), inspect(arrowBody))
+
+    timer.script(function(wait)
+      wait(0.1)
+      love.physics.newWeldJoint(dragonBody, arrowBody, x, y)
+    end)
+  end
 
   if (string.sub(nameA, 1, 3) == 'bat' and nameB == 'arrow head') then
-    print ('arrow head hit bat')
-  end 
+    local batBody = fixtureA:getBody()
+    local arrowBody = fixtureB:getBody()
+
+    local x, y = constactObject:getPositions()
+
+    -- print ('arrow head hit dragon', x, y, inspect(batBody), inspect(arrowBody))
+
+    timer.script(function(wait)
+      wait(0.1)
+      love.physics.newWeldJoint(batBody, arrowBody, x, y)
+    end)
+  end
 end
