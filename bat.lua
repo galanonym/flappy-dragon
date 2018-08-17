@@ -2,20 +2,16 @@ local timer = require('lib/hump/timer')
 
 return function(physicsModelFactory)
   -- constants
-  local ROTATION_DOWNWARD_CHANGE = 1.1 -- radians per second
-  local ROTATION_MIN_ALLOWED = -0.6 -- radians
-  local ROTATION_MAX_ALLOWED = 1 -- radians
 
   -- variables
   local batPhysics = physicsModelFactory()
-
   local batImage
   local batImageWidth = 500
   local batImageHeight = 500
   local batQuads = {}
   local batY = 200 -- pixels -- Starting position
   local batX = 250
-  local batRotation = ROTATION_MIN_ALLOWED -- Initial rotation
+  local batRotation = -0,6 -- Initial rotation
   local batCurrentQuad -- Quad
   local batScale = 0.2
 
@@ -77,17 +73,52 @@ return function(physicsModelFactory)
     if batY < 0 then
       batPhysics.getBody():applyLinearImpulse(0, 50)
     end
+
     -- Fixed x position of the bat
     batPhysics.getBody():setX(batX)
-    -- Update according to physics model
-    batY = batPhysics.getBody():getY()
 
-    -- Change rotation when freefalling down, until max rotation reached
-    if batRotation < ROTATION_MAX_ALLOWED then
-      batRotation = batRotation + (ROTATION_DOWNWARD_CHANGE * dt)
-      batPhysics.getBody():setAngle(batRotation)
+    -- Update according to physics model
+    batX = batPhysics.getBody():getX()
+    batY = batPhysics.getBody():getY()
+    batRotation = batPhysics.getBody():getAngle()
+
+    -- Make rotation value always between 0 and 6.28320
+    if (batRotation > 6.28319) then
+      batRotation = 0
+      batPhysics.getBody():setAngle(0)
     end
-  end
+    if (batRotation < 0) then
+      batRotation = 6.28320
+      batPhysics.getBody():setAngle(6.28320)
+    end
+
+    -- Check velocity in Y direction
+    local _, velocityY = batPhysics.getBody():getLinearVelocity()
+
+    -- If moving down
+    if (velocityY > 0) then
+      -- Check if bat head is pointing right
+      if (batRotation > 4.71 and batRotation <= 6.28320) or (batRotation >= 0 and batRotation < 1.22) then
+        batPhysics.getBody():applyTorque(2000)
+      end
+      -- Check if bat head is pointing left
+      if batRotation > 1.22 and batRotation < 4.71 then
+        batPhysics.getBody():applyTorque(-2000)
+      end
+    end
+
+    -- If moving up
+    if (velocityY < 0) then
+      -- Check if bat head is pointing up
+      if (batRotation > 3.14 and batRotation <= 6.28320) then
+        batPhysics.getBody():applyTorque(4000)
+      end
+      -- Check if bat head is pointing down
+      if batRotation >= 0 and batRotation < 3.14 then
+        batPhysics.getBody():applyTorque(-4000)
+      end
+    end -- if
+  end -- bat.update
 
   bat.draw = function()
     -- Set color used for drawing
@@ -117,20 +148,15 @@ return function(physicsModelFactory)
     batPhysics.getBody():setLinearVelocity(0, 0)
     batPhysics.getBody():applyLinearImpulse(0, -200)
 
-    -- Do the rotation to initial position with some frames
-    -- Angle in radians, between current rotation, and minimal allowed rotation
-    local sum = math.abs(batRotation) + math.abs(ROTATION_MIN_ALLOWED)
-     -- Step is radians to change for each frame.
-    local step = sum / 16
-    timer.script(function(wait)
-      -- Abort when current rotation reaches minimal allowed rotation
-      while batRotation > ROTATION_MIN_ALLOWED do
-        -- Change batRotation
-        batRotation = batRotation - step
-        -- Make tween effect
-        wait(0.001)
-      end
-    end)
+
+    -- @todo Add nice comment
+    if (batRotation > 3.14 and batRotation <= 6.28320) then
+      local absoluteRotation = batRotation - 3.14
+      batPhysics.getBody():applyAngularImpulse(1000 * absoluteRotation)
+    end
+    if batRotation >= 0 and batRotation < 3.14 then
+      batPhysics.getBody():applyAngularImpulse(-1000 * batRotation)
+    end
 
     -- Change quads when flying up with the bat
     timer.script(function(wait)
