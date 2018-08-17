@@ -159,11 +159,9 @@ return function(physicsModelFactory)
     if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
       local absoluteRotation = dragonRotation - 3.14
       dragonPhysics.getBody():applyAngularImpulse(1000 * absoluteRotation)
-      print('flyup negative torque')
     end
     if dragonRotation >= 0 and dragonRotation < 3.14 then
       dragonPhysics.getBody():applyAngularImpulse(-1000 * dragonRotation)
-      print('flyup positive torque')
     end
 
     -- Change quads when flying up with the dragon
