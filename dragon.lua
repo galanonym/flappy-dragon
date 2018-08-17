@@ -72,7 +72,6 @@ return function(physicsModelFactory)
   end -- dragon.load
 
   dragon.update = function()
-    -- -- @todo Prevent from flying up above screen
     if dragonY < 40 then
       dragonPhysics.getBody():applyLinearImpulse(0, 100)
     end
