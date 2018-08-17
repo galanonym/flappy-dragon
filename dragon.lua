@@ -17,7 +17,7 @@ return function(physicsModelFactory)
   local dragonScale = 0.3
 
   local dragonUserDatas = {
-    'head', 'stomach', 'tail'
+    'dragon head', 'dragon stomach', 'dragon tail'
   }
   local dragonPolygons = {}
   dragonPolygons[1] = {

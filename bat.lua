@@ -11,10 +11,13 @@ return function(physicsModelFactory)
   local batQuads = {}
   local batY = 200 -- pixels -- Starting position
   local batX = 250
-  local batRotation = -0,6 -- Initial rotation
+  local batRotation = -0.6 -- Initial rotation
   local batCurrentQuad -- Quad
   local batScale = 0.2
 
+  local batUserDatas = {
+    'bat head', 'bat stomach'
+  }
   local batPolygons = {}
   batPolygons[1] = {
     -- head
@@ -60,7 +63,8 @@ return function(physicsModelFactory)
       batY,
       batImageWidth,
       batImageHeight,
-      batScale
+      batScale,
+      batUserDatas
     )
   end
 

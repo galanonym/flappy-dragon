@@ -7,6 +7,10 @@ return function(physicsModelFactory)
     local arrowImageHeight = 500
     local arrowScale = 0.1
 
+    local arrowUserDatas = {
+      'arrow head', 'arrow stick', 'arrow back'
+    }
+
     local arrowPolygons = {}
     arrowPolygons[1] = {
       -- head
@@ -55,7 +59,8 @@ return function(physicsModelFactory)
         arrowY,
         arrowImageWidth,
         arrowImageHeight,
-        arrowScale
+        arrowScale,
+        arrowUserDatas
       )
     end -- load
 

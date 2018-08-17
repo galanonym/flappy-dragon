@@ -94,5 +94,12 @@ end
 function beginContact(fixtureA, fixtureB, collisionObject)
   local nameA = fixtureA:getUserData()
   local nameB = fixtureB:getUserData()
-  print('made contact', nameA, nameB)
+
+  if (string.sub(nameA, 1, 6) == 'dragon' and nameB == 'arrow head') then
+    print ('arrow head hit dragon')
+  end 
+
+  if (string.sub(nameA, 1, 3) == 'bat' and nameB == 'arrow head') then
+    print ('arrow head hit bat')
+  end 
 end
