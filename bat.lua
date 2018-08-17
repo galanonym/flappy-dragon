@@ -99,11 +99,11 @@ return function(physicsModelFactory)
     if (velocityY > 0) then
       -- Check if bat head is pointing right
       if (batRotation > 4.71 and batRotation <= 6.28320) or (batRotation >= 0 and batRotation < 1.22) then
-        batPhysics.getBody():applyTorque(2000)
+        batPhysics.getBody():applyTorque(500)
       end
       -- Check if bat head is pointing left
       if batRotation > 1.22 and batRotation < 4.71 then
-        batPhysics.getBody():applyTorque(-2000)
+        batPhysics.getBody():applyTorque(-500)
       end
     end
 
@@ -111,11 +111,11 @@ return function(physicsModelFactory)
     if (velocityY < 0) then
       -- Check if bat head is pointing up
       if (batRotation > 3.14 and batRotation <= 6.28320) then
-        batPhysics.getBody():applyTorque(4000)
+        batPhysics.getBody():applyTorque(1000)
       end
       -- Check if bat head is pointing down
       if batRotation >= 0 and batRotation < 3.14 then
-        batPhysics.getBody():applyTorque(-4000)
+        batPhysics.getBody():applyTorque(-1000)
       end
     end -- if
   end -- bat.update
@@ -152,10 +152,10 @@ return function(physicsModelFactory)
     -- @todo Add nice comment
     if (batRotation > 3.14 and batRotation <= 6.28320) then
       local absoluteRotation = batRotation - 3.14
-      batPhysics.getBody():applyAngularImpulse(1000 * absoluteRotation)
+      batPhysics.getBody():applyAngularImpulse(250 * absoluteRotation)
     end
     if batRotation >= 0 and batRotation < 3.14 then
-      batPhysics.getBody():applyAngularImpulse(-1000 * batRotation)
+      batPhysics.getBody():applyAngularImpulse(-250 * batRotation)
     end
 
     -- Change quads when flying up with the bat
