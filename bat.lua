@@ -16,6 +16,11 @@ return function(physicsModelFactory)
   local batScale = 0.2
   local batDensity = 1
 
+  local batIsDead = false
+  local batRespawnCounterLevel = 5
+  local batRespawnCounter = 5
+  local batDeathPositionY = 750
+
   local batUserDatas = {
     'bat head', 'bat stomach'
   }
@@ -124,7 +129,26 @@ return function(physicsModelFactory)
         batPhysics.getBody():applyTorque(-1000)
       end
     end -- if
-  end -- bat.update
+    -- Check is bat under the screen
+    if (batY > batDeathPositionY) then
+      batIsDead = true
+    end
+
+    -- If bat is dead start counting down to respawn
+    if (batIsDead) then
+      batRespawnCounter = batRespawnCounter - dt
+    end
+
+    -- If respawn counter is 0 change bat position to starting position
+    if math.floor(batRespawnCounter) == 0 then
+      batIsDead = false
+      batY = 100
+      batPhysics.getBody():setLinearVelocity(0, 0)
+      batPhysics.getBody():setY(100)
+      batRespawnCounterLevel = batRespawnCounterLevel + 1
+      batRespawnCounter = batRespawnCounterLevel
+    end
+  end -- Bat.update
 
   bat.draw = function()
     -- Set color used for drawing
@@ -146,7 +170,12 @@ return function(physicsModelFactory)
     )
 
     batPhysics.draw()
-  end
+
+    if (batIsDead) then
+      love.graphics.setColor(0, 0, 0)
+      love.graphics.print(math.floor(batRespawnCounter), 200, 300, 0, 5, 5)
+    end
+  end -- bat.draw
 
   bat.keypressedReturn = function()
     -- Add "jump" upwards to physics body
