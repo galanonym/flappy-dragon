@@ -1,4 +1,4 @@
-return function(arrowFactory)
+return function(arrowFactory, score)
   -- constants
 
   -- variables
@@ -27,6 +27,7 @@ return function(arrowFactory)
     for index, projectile in pairs(projectiles) do
       if projectile.isOffScreen() then
         projectiles[index] = nil
+        score.increment()
       end
     end
   end -- update

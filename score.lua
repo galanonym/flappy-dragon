@@ -10,7 +10,7 @@ return function()
   -- LOVE functions
   score.draw = function()
     love.graphics.setColor(0, 0, 0)
-    love.graphics.print(scoreCount, 10, 10, 0, 3, 3)
+    love.graphics.print('score: ' .. scoreCount, 950, 10, 0, 3, 3)
   end -- draw
 
   -- public functions

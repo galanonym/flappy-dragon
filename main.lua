@@ -9,9 +9,9 @@ local physicsModelFactory = require('physicsModelFactory')
 local dragon = require('dragon')(physicsModelFactory)
 local bat = require('bat')(physicsModelFactory)
 local arrowFactory = require('arrowFactory')(physicsModelFactory)
-local enemySpawner = require('enemySpawner')(arrowFactory)
 local contactFunction = require('contactFunction')
 local score = require('score')()
+local enemySpawner = require('enemySpawner')(arrowFactory, score)
 
 -- variables
 local world
