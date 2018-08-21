@@ -106,7 +106,7 @@ function beginContact(fixtureA, fixtureB, constactObject)
     -- print ('arrow head hit dragon', x, y, inspect(dragonBody), inspect(arrowBody))
 
     timer.script(function(wait)
-      wait(0.1)
+      wait(0.01)
       love.physics.newWeldJoint(dragonBody, arrowBody, x, y)
     end)
   end
@@ -120,7 +120,7 @@ function beginContact(fixtureA, fixtureB, constactObject)
     -- print ('arrow head hit dragon', x, y, inspect(batBody), inspect(arrowBody))
 
     timer.script(function(wait)
-      wait(0.1)
+      wait(0.01)
       love.physics.newWeldJoint(batBody, arrowBody, x, y)
     end)
   end
