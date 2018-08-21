@@ -45,6 +45,11 @@ return function(physicsModelFactory)
     160.00,306.00,
   }
 
+  -- dead variables
+  local dragonIsDead = false
+  local dragonRespawnCounter = 10
+  local dragonDeathPositionY = 750
+
   -- main module object
   local dragon = {}
 
@@ -77,7 +82,7 @@ return function(physicsModelFactory)
 
   end -- dragon.load
 
-  dragon.update = function()
+  dragon.update = function(dt)
     if dragonY < 40 then
       dragonPhysics.getBody():applyLinearImpulse(0, 100)
     end
@@ -131,6 +136,18 @@ return function(physicsModelFactory)
         dragonPhysics.getBody():applyTorque(-4000)
       end
     end -- if
+
+    if (dragonY > dragonDeathPositionY) then
+      dragonIsDead = true
+    end
+
+    if (dragonIsDead) then
+      dragonRespawnCounter = dragonRespawnCounter - dt
+    end
+
+    if math.floor(dragonRespawnCounter) == 0 then
+      print('respawn dragon')
+    end
   end -- dragon.update
 
   dragon.draw = function()
@@ -153,9 +170,19 @@ return function(physicsModelFactory)
     )
 
     dragonPhysics.draw()
+
+    if (dragonIsDead) then
+      love.graphics.setColor(0, 0, 0)
+      love.graphics.print(math.floor(dragonRespawnCounter), 40, 300, 0, 5, 5)
+    end
   end --dragon.draw
 
   dragon.keypressedSpace = function()
+    -- When dead, cannot fly up
+    if (dragonIsDead) then
+      return
+    end
+
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     dragonPhysics.getBody():setLinearVelocity(0, 0)
