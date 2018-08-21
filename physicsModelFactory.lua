@@ -19,7 +19,8 @@ return function()
       originalImageWidth,
       originalImageHeight,
       imageScale,
-      userDatas
+      userDatas,
+      density
     )
 
     -- define physics variables
@@ -47,6 +48,9 @@ return function()
 
       -- update fixture with userData which is a name (string)
       physicsData.fixtures[key]:setUserData(userDatas[key])
+
+      -- update fixture with custom density
+      physicsData.fixtures[key]:setDensity(density)
     end
 
     physicsData.body:setAngularDamping(1.6)

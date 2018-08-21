@@ -14,6 +14,7 @@ return function(physicsModelFactory)
   local batRotation = -0.6 -- Initial rotation
   local batCurrentQuad -- Quad
   local batScale = 0.2
+  local batDensity = 1
 
   local batUserDatas = {
     'bat head', 'bat stomach'
@@ -64,7 +65,8 @@ return function(physicsModelFactory)
       batImageWidth,
       batImageHeight,
       batScale,
-      batUserDatas
+      batUserDatas,
+      batDensity
     )
   end
 

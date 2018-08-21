@@ -15,6 +15,7 @@ return function(physicsModelFactory)
   local dragonRotation = -0.6 -- Initial rotation in radians
   local dragonCurrentQuad -- Quad
   local dragonScale = 0.3
+  local dragonDensity = 0.9
 
   local dragonUserDatas = {
     'dragon head', 'dragon stomach', 'dragon tail'
@@ -70,7 +71,8 @@ return function(physicsModelFactory)
       dragonImageWidth,
       dragonImageHeight,
       dragonScale,
-      dragonUserDatas
+      dragonUserDatas,
+      dragonDensity
     )
 
   end -- dragon.load
@@ -157,7 +159,7 @@ return function(physicsModelFactory)
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     dragonPhysics.getBody():setLinearVelocity(0, 0)
-    dragonPhysics.getBody():applyLinearImpulse(0, -500)
+    dragonPhysics.getBody():applyLinearImpulse(0, -400)
 
     -- @todo Add nice comment
     if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then

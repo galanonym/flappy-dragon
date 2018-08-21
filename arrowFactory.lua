@@ -6,6 +6,7 @@ return function(physicsModelFactory)
     local arrowImageWidth = 500
     local arrowImageHeight = 500
     local arrowScale = 0.1
+    local arrowDensity = 2
 
     local arrowUserDatas = {
       'arrow head', 'arrow stick', 'arrow back'
@@ -38,7 +39,7 @@ return function(physicsModelFactory)
     }
 
     local arrowX = 1200 -- pixels -- Starting position -- stays always the same
-    local arrowY = math.random(0, 500) -- pixels -- Starting position
+    local arrowY = math.random(180, 820) -- pixels -- Starting position
     local arrowRotation = 0
     local arrowIsShot = false
 
@@ -60,7 +61,8 @@ return function(physicsModelFactory)
         arrowImageWidth,
         arrowImageHeight,
         arrowScale,
-        arrowUserDatas
+        arrowUserDatas,
+        arrowDensity
       )
     end -- load
 
@@ -79,7 +81,7 @@ return function(physicsModelFactory)
       if arrowIsShot == false then
         -- Body:applyLinearImpulse( ix, iy )
         arrowPhysics.getBody():setLinearVelocity(-30, 0)
-        arrowPhysics.getBody():applyLinearImpulse(-300, -100)
+        arrowPhysics.getBody():applyLinearImpulse(-500, -200)
         arrowPhysics.getBody():setAngle(0.15)
         arrowIsShot = true
       end
