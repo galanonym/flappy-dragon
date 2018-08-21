@@ -39,6 +39,11 @@ function love.load()
 end
 
 function love.update(dt)
+  if bat.batIsDead and dragon.dragonIsDead then
+    -- Game Over
+    return
+  end
+
   world:update(dt) -- should be first (tutorials use it that way)
 
   paralax.update(dt)
@@ -46,6 +51,7 @@ function love.update(dt)
   dragon.update(dt)
   bat.update(dt)
   enemySpawner.update(dt, world)
+
 
   -- Activate timer library
   timer.update(dt)

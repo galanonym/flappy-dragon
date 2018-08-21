@@ -16,7 +16,6 @@ return function(physicsModelFactory)
   local batScale = 0.2
   local batDensity = 1
 
-  local batIsDead = false
   local batRespawnCounterLevel = 5
   local batRespawnCounter = 5
   local batDeathPositionY = 750
@@ -45,6 +44,8 @@ return function(physicsModelFactory)
   }
 
   local bat = {}
+
+  bat.batIsDead = false
 
   bat.load = function(world)
     -- Load image from file
@@ -129,19 +130,25 @@ return function(physicsModelFactory)
         batPhysics.getBody():applyTorque(-1000)
       end
     end -- if
+
     -- Check is bat under the screen
     if (batY > batDeathPositionY) then
-      batIsDead = true
+      bat.batIsDead = true
+
+      local joints = batPhysics.getBody():getJoints()
+      for _, joint in pairs(joints) do
+        joint:destroy()
+      end
     end
 
     -- If bat is dead start counting down to respawn
-    if (batIsDead) then
+    if (bat.batIsDead) then
       batRespawnCounter = batRespawnCounter - dt
     end
 
     -- If respawn counter is 0 change bat position to starting position
     if math.floor(batRespawnCounter) == 0 then
-      batIsDead = false
+      bat.batIsDead = false
       batY = 100
       batPhysics.getBody():setLinearVelocity(0, 0)
       batPhysics.getBody():setY(100)
@@ -171,13 +178,18 @@ return function(physicsModelFactory)
 
     batPhysics.draw()
 
-    if (batIsDead) then
+    if (bat.batIsDead) then
       love.graphics.setColor(0, 0, 0)
       love.graphics.print(math.floor(batRespawnCounter), 200, 300, 0, 5, 5)
     end
   end -- bat.draw
 
   bat.keypressedReturn = function()
+    -- When dead, cannot fly up
+    if (bat.batIsDead) then
+      return
+    end
+
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     batPhysics.getBody():setLinearVelocity(0, 0)

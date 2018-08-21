@@ -46,13 +46,14 @@ return function(physicsModelFactory)
   }
 
   -- dead variables
-  local dragonIsDead = false
   local dragonRespawnCounterLevel = 5
   local dragonRespawnCounter = 5
   local dragonDeathPositionY = 750
 
   -- main module object
   local dragon = {}
+
+  dragon.dragonIsDead = false
 
   dragon.load = function(world)
     -- Load image from file
@@ -139,15 +140,20 @@ return function(physicsModelFactory)
     end -- if
 
     if (dragonY > dragonDeathPositionY) then
-      dragonIsDead = true
+      dragon.dragonIsDead = true
+
+      local joints = dragonPhysics.getBody():getJoints()
+      for _, joint in pairs(joints) do
+        joint:destroy()
+      end
     end
 
-    if (dragonIsDead) then
+    if (dragon.dragonIsDead) then
       dragonRespawnCounter = dragonRespawnCounter - dt
     end
 
     if math.floor(dragonRespawnCounter) == 0 then
-      dragonIsDead = false
+      dragon.dragonIsDead = false
       dragonY = 100
       dragonPhysics.getBody():setLinearVelocity(0, 0)
       dragonPhysics.getBody():setY(100)
@@ -177,7 +183,7 @@ return function(physicsModelFactory)
 
     dragonPhysics.draw()
 
-    if (dragonIsDead) then
+    if (dragon.dragonIsDead) then
       love.graphics.setColor(0, 0, 0)
       love.graphics.print(math.floor(dragonRespawnCounter), 40, 300, 0, 5, 5)
     end
@@ -185,7 +191,7 @@ return function(physicsModelFactory)
 
   dragon.keypressedSpace = function()
     -- When dead, cannot fly up
-    if (dragonIsDead) then
+    if (dragon.dragonIsDead) then
       return
     end
 
