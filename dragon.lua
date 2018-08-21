@@ -85,6 +85,7 @@ return function(physicsModelFactory)
   end -- dragon.load
 
   dragon.update = function(dt)
+    -- Prevent from flying up above screen
     if dragonY < 40 then
       dragonPhysics.getBody():applyLinearImpulse(0, 100)
     end
@@ -93,8 +94,17 @@ return function(physicsModelFactory)
       dragonPhysics.getBody():applyLinearImpulse(0, 100)
     end
 
+    -- Prevent from flying up above screen
+    if dragonX < 0 then
+      dragonPhysics.getBody():applyLinearImpulse(50, 0)
+    end
+
+    if dragonX < -20 then
+      dragonPhysics.getBody():applyLinearImpulse(50, 0)
+    end
+
     -- Fixed x position of the dragon
-    dragonPhysics.getBody():setX(dragonX)
+    -- dragonPhysics.getBody():setX(dragonX)
 
     -- Update sprite according to physics model
     -- We use those variables right under too
@@ -118,7 +128,7 @@ return function(physicsModelFactory)
     -- If moving down
     if (velocityY > 0) then
       -- Check if dragon head is pointing right
-      if (dragonRotation > 4.71 and dragonRotation <= 6.28320) or (dragonRotation >= 0 and dragonRotation < 1.22) then
+      if (dragonRotation >= 4.71 and dragonRotation <= 6.28320) or (dragonRotation >= 0 and dragonRotation < 1.22) then
         dragonPhysics.getBody():applyTorque(2000)
       end
       -- Check if dragon head is pointing left
@@ -130,7 +140,7 @@ return function(physicsModelFactory)
     -- If moving up
     if (velocityY < 0) then
       -- Check if dragon head is pointing up
-      if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then
+      if (dragonRotation >= 3.14 and dragonRotation <= 6.28320) then
         dragonPhysics.getBody():applyTorque(4000)
       end
       -- Check if dragon head is pointing down
@@ -157,6 +167,8 @@ return function(physicsModelFactory)
       dragonY = 100
       dragonPhysics.getBody():setLinearVelocity(0, 0)
       dragonPhysics.getBody():setY(100)
+      dragonPhysics.getBody():setX(100)
+      dragonPhysics.getBody():setAngle(0)
       dragonRespawnCounterLevel = dragonRespawnCounterLevel + 1
       dragonRespawnCounter = dragonRespawnCounterLevel
     end
@@ -198,7 +210,7 @@ return function(physicsModelFactory)
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     dragonPhysics.getBody():setLinearVelocity(0, 0)
-    dragonPhysics.getBody():applyLinearImpulse(0, -400)
+    dragonPhysics.getBody():applyLinearImpulse(10, -400)
 
     -- @todo Add nice comment
     if (dragonRotation > 3.14 and dragonRotation <= 6.28320) then

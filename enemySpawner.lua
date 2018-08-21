@@ -4,6 +4,10 @@ return function(arrowFactory, score)
   -- variables
   local timeToShoot = 0.2; -- first arrow
   local projectiles = {}
+  local difficultyIncreaseOverTime = 0.7 -- higher number = more difficult
+  local difficultySteep = 2.5 -- higher number = more time passes until more difficult
+  local timeToShootMin = 0.5
+  local timeToShootMax = 2
 
   -- main module object
   local enemySpawner = {}
@@ -13,7 +17,19 @@ return function(arrowFactory, score)
     if timeToShoot > 0 then
       timeToShoot = timeToShoot - dt
     else
-      timeToShoot = math.random(0.2, 1)
+      timeToShoot = math.random(timeToShootMin, timeToShootMax)
+
+      timeToShootMin = timeToShootMin - (dt * difficultyIncreaseOverTime * (timeToShootMin ^ difficultySteep))
+      if timeToShootMin <= 0 then
+        timeToShootMin = 0.1
+      end
+
+      timeToShootMax = timeToShootMax - (dt * difficultyIncreaseOverTime * (timeToShootMax ^ difficultySteep))
+      if timeToShootMax <= 0 then
+        timeToShootMax = 0.1
+      end
+
+      print('min', timeToShootMin, 'max', timeToShootMax)
 
       local arrow = arrowFactory()
       arrow.load(world)

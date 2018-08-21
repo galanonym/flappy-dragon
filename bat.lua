@@ -86,8 +86,17 @@ return function(physicsModelFactory)
       batPhysics.getBody():applyLinearImpulse(0, 50)
     end
 
+    -- Prevent from flying left of screen
+    if batX < 0 then
+      batPhysics.getBody():applyLinearImpulse(25, 0)
+    end
+
+    if batX < -15 then
+      batPhysics.getBody():applyLinearImpulse(25, 0)
+    end
+
     -- Fixed x position of the bat
-    batPhysics.getBody():setX(batX)
+    -- batPhysics.getBody():setX(batX)
 
     -- Update according to physics model
     batX = batPhysics.getBody():getX()
@@ -110,7 +119,7 @@ return function(physicsModelFactory)
     -- If moving down
     if (velocityY > 0) then
       -- Check if bat head is pointing right
-      if (batRotation > 4.71 and batRotation <= 6.28320) or (batRotation >= 0 and batRotation < 1.22) then
+      if (batRotation >= 4.71 and batRotation <= 6.28320) or (batRotation >= 0 and batRotation < 1.22) then
         batPhysics.getBody():applyTorque(500)
       end
       -- Check if bat head is pointing left
@@ -122,7 +131,7 @@ return function(physicsModelFactory)
     -- If moving up
     if (velocityY < 0) then
       -- Check if bat head is pointing up
-      if (batRotation > 3.14 and batRotation <= 6.28320) then
+      if (batRotation >= 3.14 and batRotation <= 6.28320) then
         batPhysics.getBody():applyTorque(1000)
       end
       -- Check if bat head is pointing down
@@ -152,6 +161,8 @@ return function(physicsModelFactory)
       batY = 100
       batPhysics.getBody():setLinearVelocity(0, 0)
       batPhysics.getBody():setY(100)
+      batPhysics.getBody():setX(250)
+      batPhysics.getBody():setAngle(0)
       batRespawnCounterLevel = batRespawnCounterLevel + 1
       batRespawnCounter = batRespawnCounterLevel
     end
@@ -193,7 +204,7 @@ return function(physicsModelFactory)
     -- Add "jump" upwards to physics body
     -- body.applyForce(fx, fy)
     batPhysics.getBody():setLinearVelocity(0, 0)
-    batPhysics.getBody():applyLinearImpulse(0, -200)
+    batPhysics.getBody():applyLinearImpulse(8, -200)
 
 
     -- @todo Add nice comment
