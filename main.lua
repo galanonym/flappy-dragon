@@ -11,6 +11,7 @@ local bat = require('bat')(physicsModelFactory)
 local arrowFactory = require('arrowFactory')(physicsModelFactory)
 local enemySpawner = require('enemySpawner')(arrowFactory)
 local contactFunction = require('contactFunction')
+local score = require('score')()
 
 -- variables
 local world
@@ -67,6 +68,8 @@ function love.draw()
   bat.draw()
 
   enemySpawner.draw()
+
+  score.draw()
 
   push:finish()
 end
