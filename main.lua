@@ -1,7 +1,7 @@
 -- libraries
 local timer = require('lib/hump/timer')
 local push = require('lib/push')
-local inspect = require('lib/inspect')
+-- local inspect = require('lib/inspect')
 
 -- modules
 local paralax = require('paralax')()
@@ -10,10 +10,10 @@ local dragon = require('dragon')(physicsModelFactory)
 local bat = require('bat')(physicsModelFactory)
 local arrowFactory = require('arrowFactory')(physicsModelFactory)
 local enemySpawner = require('enemySpawner')(arrowFactory)
+local contactFunction = require('contactFunction')
 
 -- variables
 local world
-local beginContact
 
 function love.load()
   -- Sets display mode and properties of window
@@ -31,7 +31,7 @@ function love.load()
   -- love physics variables
   love.physics.setMeter(50)
   world = love.physics.newWorld(0, 9.81*64, true)
-  world:setCallbacks(beginContact)
+  world:setCallbacks(contactFunction)
 
   dragon.load(world)
   bat.load(world)
@@ -90,38 +90,4 @@ end
 
 function love.resize(w, h)
     push:resize(w, h)
-end
-
-function beginContact(fixtureA, fixtureB, constactObject)
-  local nameA = fixtureA:getUserData()
-  local nameB = fixtureB:getUserData()
-
-  if (string.sub(nameA, 1, 6) == 'dragon' and nameB == 'arrow head') then
-
-    local dragonBody = fixtureA:getBody()
-    local arrowBody = fixtureB:getBody()
-
-    local x, y = constactObject:getPositions()
-
-    -- print ('arrow head hit dragon', x, y, inspect(dragonBody), inspect(arrowBody))
-
-    timer.script(function(wait)
-      wait(0.01)
-      love.physics.newWeldJoint(dragonBody, arrowBody, x, y)
-    end)
-  end
-
-  if (string.sub(nameA, 1, 3) == 'bat' and nameB == 'arrow head') then
-    local batBody = fixtureA:getBody()
-    local arrowBody = fixtureB:getBody()
-
-    local x, y = constactObject:getPositions()
-
-    -- print ('arrow head hit dragon', x, y, inspect(batBody), inspect(arrowBody))
-
-    timer.script(function(wait)
-      wait(0.01)
-      love.physics.newWeldJoint(batBody, arrowBody, x, y)
-    end)
-  end
 end
