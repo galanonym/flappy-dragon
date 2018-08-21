@@ -47,7 +47,8 @@ return function(physicsModelFactory)
 
   -- dead variables
   local dragonIsDead = false
-  local dragonRespawnCounter = 10
+  local dragonRespawnCounterLevel = 5
+  local dragonRespawnCounter = 5
   local dragonDeathPositionY = 750
 
   -- main module object
@@ -146,7 +147,12 @@ return function(physicsModelFactory)
     end
 
     if math.floor(dragonRespawnCounter) == 0 then
-      print('respawn dragon')
+      dragonIsDead = false
+      dragonY = 100
+      dragonPhysics.getBody():setLinearVelocity(0, 0)
+      dragonPhysics.getBody():setY(100)
+      dragonRespawnCounterLevel = dragonRespawnCounterLevel + 1
+      dragonRespawnCounter = dragonRespawnCounterLevel
     end
   end -- dragon.update
 
