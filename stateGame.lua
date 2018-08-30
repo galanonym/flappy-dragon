@@ -36,7 +36,6 @@ return function()
   stateGame.update = function(dt)
     if bat.batIsDead and dragon.dragonIsDead then
       -- Game Over
-      love.gameOver = true
       return
     end
 
