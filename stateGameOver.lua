@@ -22,6 +22,9 @@ return function()
   end -- statePaused.draw
 
   statePaused.keypressed = function(key)
+    if key == 'return' then
+      love.stateCurrent = 'stateGame'
+    end
   end -- statePaused.draw
 
   return statePaused
