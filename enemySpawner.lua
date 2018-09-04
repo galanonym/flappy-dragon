@@ -29,8 +29,6 @@ return function(arrowFactory, score)
         timeToShootMax = 0.1
       end
 
-      print('min', timeToShootMin, 'max', timeToShootMax)
-
       local arrow = arrowFactory()
       arrow.load(world)
       projectiles[#projectiles + 1] = arrow
