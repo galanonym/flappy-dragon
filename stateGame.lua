@@ -86,6 +86,10 @@ return function()
     if key == 'return' then
       bat.keypressedReturn()
     end
+
+    if key == 'p' then
+      love.stateCurrent = 'statePaused'
+    end
   end -- stateGame.draw
 
   return stateGame

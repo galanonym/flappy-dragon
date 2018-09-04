@@ -10,8 +10,8 @@ return function()
   -- main module object
   local statePaused = {}
 
-  statePaused.load = function()
-  end -- statePaused.load
+  -- statePaused.load = function()
+  -- end -- statePaused.load
 
   statePaused.update = function(dt)
   end -- statePaused.update
@@ -21,6 +21,9 @@ return function()
   end -- statePaused.draw
 
   statePaused.keypressed = function(key)
+    if key == 'p' then
+      love.stateCurrent = 'stateGame'
+    end
   end -- statePaused.draw
 
   return statePaused
