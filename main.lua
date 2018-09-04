@@ -3,6 +3,7 @@ local push = require('lib/push')
 local stateMap = {}
 stateMap.stateGame = require('stateGame')()
 stateMap.statePaused = require('statePaused')()
+stateMap.stateGameOver = require('stateGameOver')()
 
 love.stateCurrent = 'stateGame'
 

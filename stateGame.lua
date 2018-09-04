@@ -36,7 +36,8 @@ return function()
   stateGame.update = function(dt)
     if bat.batIsDead and dragon.dragonIsDead then
       -- Game Over
-      return
+      love.stateCurrent = 'stateGameOver'
+      -- return
     end
 
     world:update(dt) -- should be first (tutorials use it that way)
