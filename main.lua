@@ -1,12 +1,13 @@
 local push = require('lib/push')
 
 love.g = {}
-love.g.stateCurrent = 'stateGame'
+love.g.stateCurrent = 'stateLobby'
 
 local stateMap = {}
 stateMap.stateGame = require('stateGame')()
 stateMap.statePaused = require('statePaused')()
 stateMap.stateGameOver = require('stateGameOver')()
+stateMap.stateLobby = require('stateLobby')()
 
 function love.load()
   -- Sets display mode and properties of window
@@ -45,6 +46,11 @@ end
 function love.keypressed(key)
   if stateMap[love.g.stateCurrent].keypressed then
     stateMap[love.g.stateCurrent].keypressed(key)
+  end
+
+  if key == 'escape' then
+    -- Adds the quit event to the queue.(terminates application)
+    love.event.quit()
   end
 end
 
