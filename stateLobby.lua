@@ -12,21 +12,21 @@ return function()
   local dragonImage
   local dragonQuad
   -- main module object
-  local statePaused = {}
+  local stateLobby = {}
 
-  statePaused.load = function()
+  stateLobby.load = function()
     paralax.load()
     batImage = love.graphics.newImage('assets/bat/spritesheet.png')
     batQuad = love.graphics.newQuad(0, 0, 500, 500, batImage:getDimensions())
 
     dragonImage = love.graphics.newImage('assets/dragon/spritesheet.png')
     dragonQuad = love.graphics.newQuad(0, 0, 500, 500, dragonImage:getDimensions())
-  end -- statePaused.load
+  end -- stateLobby.load
 
-  statePaused.update = function(dt)
-  end -- statePaused.update
+  stateLobby.update = function(dt)
+  end -- stateLobby.update
 
-  statePaused.draw = function()
+  stateLobby.draw = function()
     love.graphics.setColor(109 / 255, 184 / 255, 226 / 255)
     love.graphics.rectangle('fill', 0, 0, 1200, 700)
     paralax.draw()
@@ -40,13 +40,13 @@ return function()
     love.graphics.setColor(0, 0, 0)
     love.graphics.print('Press SPACE to jump', 900, 450, 0, 2, 2)
     love.graphics.print('Press ENTER to jump', 25, 450, 0, 2, 2)
-  end -- statePaused.draw
+  end -- stateLobby.draw
 
-  statePaused.keypressed = function(key)
-    if key == 'space' or 'return' then
+  stateLobby.keypressed = function(key)
+    if key == 'space' or key == 'return' then
       love.g.stateCurrent = 'stateGame'
     end
-  end -- statePaused.draw
+  end -- stateLobby.draw
 
-  return statePaused
+  return stateLobby
 end
