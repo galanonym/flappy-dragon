@@ -1,12 +1,12 @@
 local push = require('lib/push')
 
+love.g = {}
+love.g.stateCurrent = 'stateGame'
+
 local stateMap = {}
 stateMap.stateGame = require('stateGame')()
 stateMap.statePaused = require('statePaused')()
 stateMap.stateGameOver = require('stateGameOver')()
-
-love.g = {}
-love.g.stateCurrent = 'stateGame'
 
 function love.load()
   -- Sets display mode and properties of window
