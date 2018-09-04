@@ -1,6 +1,13 @@
 local push = require('lib/push')
 
 local stateGame = require('stateGame')()
+local statePaused = require('statePaused')()
+
+love.stateCurrent = 'statePaused'
+
+local stateMap = {}
+stateMap.stateGame = stateGame
+stateMap.statePaused = statePaused
 
 function love.load()
   -- Sets display mode and properties of window
@@ -14,22 +21,23 @@ function love.load()
   math.randomseed(os.time())
 
   stateGame.load()
+  statePaused.load()
 end
 
 function love.update(dt)
-  stateGame.update(dt)
+  stateMap[love.stateCurrent].update(dt)
 end
 
 function love.draw()
   push:start()
 
-  stateGame.draw()
+  stateMap[love.stateCurrent].draw()
 
   push:finish()
 end
 
 function love.keypressed(key)
-  stateGame.keypressed(key)
+  stateMap[love.stateCurrent].keypressed(key)
 end
 
 function love.resize(w, h)
