@@ -15,8 +15,10 @@ return function(arrowFactory, score)
   -- LOVE functions
   enemySpawner.update = function(dt, world)
     if timeToShoot > 0 then
+      -- subtract time from timeToShoot to shoot another arrow
       timeToShoot = timeToShoot - dt
     else
+      -- if time is up, shoot one arrow, and decide randomly next time to shoot time
       timeToShoot = math.random(timeToShootMin, timeToShootMax)
 
       timeToShootMin = timeToShootMin - (dt * difficultyIncreaseOverTime * (timeToShootMin ^ difficultySteep))
@@ -50,6 +52,13 @@ return function(arrowFactory, score)
     for _, projectile in pairs(projectiles) do
       projectile.draw()
     end
+  end
+
+  enemySpawner.reset = function()
+    projectiles = {}
+    timeToShoot = 0.2;
+    timeToShootMin = 0.5
+    timeToShootMax = 2
   end
 
   return enemySpawner

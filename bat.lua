@@ -9,8 +9,8 @@ return function(physicsModelFactory)
   local batImageWidth = 500
   local batImageHeight = 500
   local batQuads = {}
-  local batY = 200 -- pixels -- Starting position
   local batX = 250
+  local batY = 200 -- pixels -- Starting position
   local batRotation = -0.6 -- Initial rotation
   local batCurrentQuad -- Quad
   local batScale = 0.2
@@ -230,6 +230,14 @@ return function(physicsModelFactory)
       wait(0.08)
       batCurrentQuad = batQuads[1]
     end)
+  end
+
+  bat.reset = function()
+    bat.batIsDead = false
+    batPhysics.getBody():setLinearVelocity(0, 0)
+    batPhysics.getBody():setX(250)
+    batPhysics.getBody():setY(200)
+    batPhysics.getBody():setAngle(-0.6)
   end
 
   return bat

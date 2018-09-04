@@ -240,9 +240,9 @@ return function(physicsModelFactory)
 dragon.reset = function()
   dragon.dragonIsDead = false
   dragonPhysics.getBody():setLinearVelocity(0, 0)
-  dragonX = 100
-  dragonY = 100
-  dragonRotation = -0.6
+  dragonPhysics.getBody():setX(100)
+  dragonPhysics.getBody():setY(100)
+  dragonPhysics.getBody():setAngle(-0.6)
 end
 
   return dragon
