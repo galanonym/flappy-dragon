@@ -22,7 +22,7 @@ return function()
 
   statePaused.keypressed = function(key)
     if key == 'p' then
-      love.stateCurrent = 'stateGame'
+      love.g.stateCurrent = 'stateGame'
     end
   end -- statePaused.draw
 

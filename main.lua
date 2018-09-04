@@ -5,7 +5,8 @@ stateMap.stateGame = require('stateGame')()
 stateMap.statePaused = require('statePaused')()
 stateMap.stateGameOver = require('stateGameOver')()
 
-love.stateCurrent = 'stateGame'
+love.g = {}
+love.g.stateCurrent = 'stateGame'
 
 function love.load()
   -- Sets display mode and properties of window
@@ -26,24 +27,24 @@ function love.load()
 end
 
 function love.update(dt)
-  if stateMap[love.stateCurrent].update then
-    stateMap[love.stateCurrent].update(dt)
+  if stateMap[love.g.stateCurrent].update then
+    stateMap[love.g.stateCurrent].update(dt)
   end
 end
 
 function love.draw()
   push:start()
 
-  if stateMap[love.stateCurrent].draw then
-    stateMap[love.stateCurrent].draw()
+  if stateMap[love.g.stateCurrent].draw then
+    stateMap[love.g.stateCurrent].draw()
   end
 
   push:finish()
 end
 
 function love.keypressed(key)
-  if stateMap[love.stateCurrent].keypressed then
-    stateMap[love.stateCurrent].keypressed(key)
+  if stateMap[love.g.stateCurrent].keypressed then
+    stateMap[love.g.stateCurrent].keypressed(key)
   end
 end
 

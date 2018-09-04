@@ -36,7 +36,7 @@ return function()
   stateGame.update = function(dt)
     if bat.batIsDead and dragon.dragonIsDead then
       -- Game Over
-      love.stateCurrent = 'stateGameOver'
+      love.g.stateCurrent = 'stateGameOver'
       -- return
     end
 
@@ -89,7 +89,7 @@ return function()
     end
 
     if key == 'p' then
-      love.stateCurrent = 'statePaused'
+      love.g.stateCurrent = 'statePaused'
     end
   end -- stateGame.draw
 
