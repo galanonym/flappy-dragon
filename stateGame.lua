@@ -36,6 +36,7 @@ return function()
   stateGame.update = function(dt)
     if bat.batIsDead and dragon.dragonIsDead then
       -- Game Over
+      dragon.reset()
       love.g.stateCurrent = 'stateGameOver'
       -- return
     end
